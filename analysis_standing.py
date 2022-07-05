@@ -3,9 +3,11 @@
 import codecs
 import json
 
-contest_names = ["abc{:03}".format(i) for i in range(195, 0, -1)] \
-+ ["arc{:03}".format(i) for i in range(114, 0, -1)] \
-+ ["agc{:03}".format(i) for i in range(52, 0, -1)]
+contest_names = (
+    ["abc{:03}".format(i) for i in range(195, 0, -1)]
+    + ["arc{:03}".format(i) for i in range(114, 0, -1)]
+    + ["agc{:03}".format(i) for i in range(52, 0, -1)]
+)
 
 main_D = {}
 
@@ -27,7 +29,7 @@ for contest_name in contest_names:
 
     main_D[contest_name] = D
     f.close()
-    
+
 
 f = open("points/points_{}_files.txt".format(len(main_D)), "w")
 f.write(str(main_D))

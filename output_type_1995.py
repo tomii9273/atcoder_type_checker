@@ -1,15 +1,15 @@
 # users_19x5.txtの各ユーザーの(補正を取ったrating, 早解き度)を（早解き度はprint_type.pyの要領で）まとめてnumpy配列に出力する。
 # 1995年のみの補正を取っていないrating版は「rate_per_1995_レートの補正をとっていない.npy」として保存。
 
-import urllib.request
-import json
 import ast
-import numpy as np
+import json
 import time
+import urllib.request
 from math import log
 
-from print_type import get_type
+import numpy as np
 
+from print_type import get_type
 
 f = open("points/points_361_files.txt", "r")
 for item in f.readlines():
@@ -17,14 +17,17 @@ for item in f.readlines():
     break
 f.close()
 
+
 def rate43(rate4):
     rate = max(rate4, 0.1)
     if rate < 400:
         return 400 - 400 * log(400 / rate)
     return rate
 
+
 def rate32(rate3, times):
-    return rate3 + (((1 - 0.81**times) ** 0.5) / (1 - 0.9**times) - 1) * 1200 / (19**0.5 - 1)
+    return rate3 + (((1 - 0.81 ** times) ** 0.5) / (1 - 0.9 ** times) - 1) * 1200 / (19 ** 0.5 - 1)
+
 
 f = open("analysis_1995/users_19x5.txt", "r")
 L = []
