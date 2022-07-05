@@ -44,7 +44,7 @@ for contest_name in contest_names:
     # print(res.text)
 
     time.sleep(1)
-    f = codecs.open("results/{}.txt".format(contest_name), "w", "utf-8")
+    f = codecs.open("raw_standings/{}.txt".format(contest_name), "w", "utf-8")
     f.write(res.text)
     f.close()
 
@@ -61,7 +61,7 @@ f.close()
 for contest_name in contest_names:
     print("load", contest_name)
     D = {}
-    f = codecs.open("results/{}.txt".format(contest_name), "r", "utf-8")
+    f = codecs.open("raw_standings/{}.txt".format(contest_name), "r", "utf-8")
     for item in f.readlines():
         SD = json.loads(item)["StandingsData"]
     for i in range(len(SD)):
