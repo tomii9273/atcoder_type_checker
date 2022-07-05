@@ -3,13 +3,13 @@
 # の辞書に追加して同名で保存する。
 # get_standing.pyとanalysis_standing.pyをつなげたような構造。
 
-import requests
-from bs4 import BeautifulSoup
-import time
+import ast
 import codecs
 import json
-import ast
+import time
 
+import requests
+from bs4 import BeautifulSoup
 
 # パラメータここから
 contest_names = ["abc203", "arc121"]
@@ -22,21 +22,18 @@ for contest_name in contest_names:
     print("start", contest_name)
 
     url = "https://atcoder.jp/login?continue=https%3A%2F%2Fatcoder.jp%2Fcontests%2F{}%2Fstandings%2Fjson".format(
-        contest_name)
+        contest_name
+    )
     session = requests.session()
     response = session.get(url)
-    bs = BeautifulSoup(response.text, 'html.parser')
+    bs = BeautifulSoup(response.text, "html.parser")
 
     # クッキーとトークンを取得
-    authenticity = bs.find(attrs={'name': 'csrf_token'}).get('value')
+    authenticity = bs.find(attrs={"name": "csrf_token"}).get("value")
     cookie = response.cookies
 
     # ログイン情報
-    info = {
-        "username": "Tomii9273",
-        "password": pw,
-        "csrf_token": authenticity
-    }
+    info = {"username": "Tomii9273", "password": pw, "csrf_token": authenticity}
 
     # URLを叩き、htmlを表示
     res = session.post(url, data=info, cookies=cookie)

@@ -1,11 +1,11 @@
 # ユーザー名を入力し、コンテスト成績表と、あらかじめ得た点数と順位範囲のデータを元に、早解き度を出力する。
 # 早解き度（早解きほど小さく、0に近い）はレートと相関があるので、平均値（rate_per_19x5.npyより取得）との差を出力する。
 # また、レートには補正を取ったものを使用する。
-
-import urllib.request
-import json
 import ast
+import json
+import urllib.request
 from math import log
+
 import numpy as np
 
 N = np.load("analysis_1995/rate_per_19x5.npy").T
@@ -21,8 +21,9 @@ def rate43(rate4):
         return 400 - 400 * log(400 / rate)
     return rate
 
+
 def rate32(rate3, times):
-    return rate3 + (((1 - 0.81**times) ** 0.5) / (1 - 0.9**times) - 1) * 1200 / (19**0.5 - 1)
+    return rate3 + (((1 - 0.81 ** times) ** 0.5) / (1 - 0.9 ** times) - 1) * 1200 / (19 ** 0.5 - 1)
 
 
 f = open("points/points.txt", "r")
@@ -34,6 +35,7 @@ f.close()
 
 def test(a):
     return 12
+
 
 def get_type(user_name):
 
@@ -50,8 +52,8 @@ def get_type(user_name):
     cnt = 0  # 計算に使用したコンテスト数(Unrated含む)
     times = 0  # Rated参加数
     for i in range(len(js)):
-        contest_name = js[i]['ContestScreenName'][:6]
-        rank = js[i]['Place']
+        contest_name = js[i]["ContestScreenName"][:6]
+        rank = js[i]["Place"]
         if js[i]["IsRated"] == True:
             times += 1
         # print(contest_name, rank)
@@ -65,17 +67,16 @@ def get_type(user_name):
             if score != 0 and V[ind][1] != V[ind][0] and score != 2100:
                 cnt += 1
                 per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
-                per_w += (rank - V[ind][0])
-                sum_w += (V[ind][1] - V[ind][0])
+                per_w += rank - V[ind][0]
+                sum_w += V[ind][1] - V[ind][0]
                 sum_per += per
                 # print(contest_name, rank, score, per)
 
     if times == 0:
         return 0, 0, 0, 0, 0, 0
-        
+
     per0 = sum_per / cnt
     per1 = per_w / sum_w
-
 
     rate4 = js[-1]["NewRating"]
     rate2 = rate32(rate43(int(rate4)), times)
@@ -83,7 +84,6 @@ def get_type(user_name):
 
     per0s = per0 - a(rate2)
     per1s = per1 - b(rate2)
-
 
     # return (per0, per1, per0s, per1s)
     return per0s, rate2, cnt, times, per0, a(rate2)

@@ -1,10 +1,9 @@
 # 各コンテストのレーティング変化表（results）のjsonを取得する。順位表（standings）のjsonの取得と違い、ログイン（認証）する必要がない。
 # 現状使用していない。
 
-import urllib.request
-import time
 import codecs
-
+import time
+import urllib.request
 
 contest_names = ["arc114", "abc193"]
 
