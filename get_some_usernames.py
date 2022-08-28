@@ -12,7 +12,7 @@ Data = []
 got = False  # これがFalseのまま＝そのページにユーザーはいないので、打ち切って次の年を調べる
 
 for year in range(1905, 2025, 5):
-    for page_no in range(1, 100):
+    for page_no in range(1, 1000):
         URL = "https://atcoder.jp/ranking?f.Affiliation=&f.BirthYearLowerBound={0}&f.BirthYearUpperBound={0}&f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&f.RatingLowerBound=0&f.RatingUpperBound=9999&f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={1}".format(
             year, page_no
         )
