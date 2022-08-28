@@ -5,7 +5,7 @@ import ast
 import json
 import urllib.request
 
-f = open("points/points_361_files.txt", "r")
+f = open("points/points.txt", "r")
 for item in f.readlines():
     main_D = ast.literal_eval(item)
     break
