@@ -11,12 +11,6 @@ import numpy as np
 
 from print_type import get_type
 
-f = open("points/points_361_files.txt", "r")
-for item in f.readlines():
-    main_D = ast.literal_eval(item)
-    break
-f.close()
-
 
 def rate43(rate4):
     rate = max(rate4, 0.1)
