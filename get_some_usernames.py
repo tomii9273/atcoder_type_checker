@@ -55,7 +55,7 @@ for year in range(1905, 2025, 5):
         if not got:
             break
 
-f = open("analysis_1995/users_19x5.txt", "w")
+f = open("ignore/analysis_1995/users_19x5_20220829.txt", "w")
 for i in range(len(Data)):
     f.write("{} {} {}".format(Data[i][0], Data[i][1], Data[i][2]))
     f.write("\n")
