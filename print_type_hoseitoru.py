@@ -64,7 +64,7 @@ def get_type(user_name):
             while not (V[ind][0] <= rank <= V[ind][1]):
                 ind += 1
             score = K[ind]
-            if score != 0 and V[ind][1] != V[ind][0] and score != 2100:
+            if score != 0 and V[ind][1] != V[ind][0]:
                 cnt += 1
                 per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
                 per_w += rank - V[ind][0]
