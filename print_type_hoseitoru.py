@@ -70,7 +70,7 @@ def get_type(user_name):
                 # print(contest_name, rank, score, per)
 
     if n_contest == 0:
-        return 0, 0, 0, 0, 0, 0
+        return 0, 0, 0, 0, 0
 
     per0 = sum_per / n_contest
     per1 = per_w / sum_w
