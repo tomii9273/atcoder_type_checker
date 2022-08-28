@@ -58,9 +58,9 @@ def get_type(user_name):
             V = list(main_D[contest_name].values())
             K = list(main_D[contest_name].keys())
             ind = 0
-            while not (V[ind][0] <= rank <= V[ind][1]):
+            while ind < len(V) and (not (V[ind][0] <= rank <= V[ind][1])):
                 ind += 1
-            score = K[ind]
+            score = K[ind] if ind < len(K) else 0
             if score != 0 and V[ind][1] != V[ind][0]:
                 n_contest += 1
                 per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
