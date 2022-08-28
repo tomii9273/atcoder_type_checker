@@ -26,10 +26,11 @@ def get_type(user_name):
     sum_w = 0
     cnt = 0
     for i in range(len(js)):
+        rated = js[i]["IsRated"]
         contest_name = js[i]["ContestScreenName"][:6]
         rank = js[i]["Place"]
         # print(contest_name, rank)
-        if contest_name in main_D:
+        if rated and contest_name in main_D:
             V = list(main_D[contest_name].values())
             K = list(main_D[contest_name].keys())
             ind = 0

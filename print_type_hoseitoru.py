@@ -49,15 +49,15 @@ def get_type(user_name):
     sum_per = 0
     per_w = 0
     sum_w = 0
-    cnt = 0  # 計算に使用したコンテスト数(Unrated含む)
+    cnt = 0  # 計算に使用したコンテスト数
     times = 0  # Rated参加数
     for i in range(len(js)):
+        rated = js[i]["IsRated"]
         contest_name = js[i]["ContestScreenName"][:6]
         rank = js[i]["Place"]
-        if js[i]["IsRated"] == True:
+        if rated:
             times += 1
-        # print(contest_name, rank)
-        if contest_name in main_D:
+        if rated and contest_name in main_D:
             V = list(main_D[contest_name].values())
             K = list(main_D[contest_name].keys())
             ind = 0
