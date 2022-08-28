@@ -49,44 +49,41 @@ def get_type(user_name):
     sum_per = 0
     per_w = 0
     sum_w = 0
-    cnt = 0  # 計算に使用したコンテスト数(Unrated含む)
-    times = 0  # Rated参加数
+    n_contest = 0  # 計算に使用したコンテスト数
     for i in range(len(js)):
+        rated = js[i]["IsRated"]
         contest_name = js[i]["ContestScreenName"][:6]
         rank = js[i]["Place"]
-        if js[i]["IsRated"] == True:
-            times += 1
-        # print(contest_name, rank)
-        if contest_name in main_D:
+        if rated and contest_name in main_D:
             V = list(main_D[contest_name].values())
             K = list(main_D[contest_name].keys())
             ind = 0
             while not (V[ind][0] <= rank <= V[ind][1]):
                 ind += 1
             score = K[ind]
-            if score != 0 and V[ind][1] != V[ind][0] and score != 2100:
-                cnt += 1
+            if score != 0 and V[ind][1] != V[ind][0]:
+                n_contest += 1
                 per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
                 per_w += rank - V[ind][0]
                 sum_w += V[ind][1] - V[ind][0]
                 sum_per += per
                 # print(contest_name, rank, score, per)
 
-    if times == 0:
-        return 0, 0, 0, 0, 0, 0
+    if n_contest == 0:
+        return 0, 0, 0, 0, 0
 
-    per0 = sum_per / cnt
+    per0 = sum_per / n_contest
     per1 = per_w / sum_w
 
     rate4 = js[-1]["NewRating"]
-    rate2 = rate32(rate43(int(rate4)), times)
+    rate2 = rate32(rate43(int(rate4)), n_contest)
     # print(rate4, rate2, cnt, times)
 
     per0s = per0 - a(rate2)
     per1s = per1 - b(rate2)
 
     # return (per0, per1, per0s, per1s)
-    return per0s, rate2, cnt, times, per0, a(rate2)
+    return per0s, rate2, n_contest, per0, a(rate2)
 
 
 if __name__ == "__main__":
