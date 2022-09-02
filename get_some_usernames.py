@@ -103,7 +103,7 @@ for page_no in range(1, 1000):
         break
 
 
-f = open("ignore/analysis_1995/users_19x5_20220829.txt", "w")
+f = open("ignore/analysis_1995/users_5n_and_top_20220829.txt", "w")
 for i in range(len(Data)):
     f.write("{} {} {}".format(Data[i][0], Data[i][1], Data[i][2]))
     f.write("\n")
