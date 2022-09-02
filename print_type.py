@@ -5,7 +5,7 @@ import ast
 import json
 import urllib.request
 
-f = open("points/points_361_files.txt", "r")
+f = open("points/points.txt", "r")
 for item in f.readlines():
     main_D = ast.literal_eval(item)
     break
@@ -26,17 +26,18 @@ def get_type(user_name):
     sum_w = 0
     cnt = 0
     for i in range(len(js)):
+        rated = js[i]["IsRated"]
         contest_name = js[i]["ContestScreenName"][:6]
         rank = js[i]["Place"]
         # print(contest_name, rank)
-        if contest_name in main_D:
+        if rated and contest_name in main_D:
             V = list(main_D[contest_name].values())
             K = list(main_D[contest_name].keys())
             ind = 0
-            while not (V[ind][0] <= rank <= V[ind][1]):
+            while ind < len(V) and (not (V[ind][0] <= rank <= V[ind][1])):
                 ind += 1
-            score = K[ind]
-            if score != 0 and V[ind][1] != V[ind][0] and score != 2100:
+            score = K[ind] if ind < len(K) else 0
+            if score != 0 and V[ind][1] != V[ind][0]:
                 cnt += 1
                 per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
                 per_w += rank - V[ind][0]
