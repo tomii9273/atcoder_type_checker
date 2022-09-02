@@ -41,10 +41,10 @@ def post():
             mes += "タイプです。"
         if not (0 <= rate2 <= 3200):
             mes1 += "※内部レートが 0 ～ 3200 の範囲外のため、結果の信頼度が低い可能性があります。"
-        mes2 = "{} さんの平均順位率: {:.4f}".format(name, first_score)
-        mes3 = "内部レートによる補正 (= {} さんと同程度の内部レートの人が取得している、平均的な平均順位率) : {:.4f}".format(name, mean_score)
-        mes4 = "計算に使用したコンテスト数: {:}".format(times)
-        mes5 = "{} さんの内部レート: {:.2f}".format(name, rate2)
+        mes2 = "{} さんの内部レート: {:.2f}".format(name, rate2)
+        mes3 = "計算に使用したコンテスト数: {:}".format(times)
+        mes4 = "{} さんの平均順位率: {:.4f}".format(name, first_score)
+        mes5 = "内部レートによる補正 (= {} さんと同程度の内部レートの人が取得している、平均的な平均順位率) : {:.4f}".format(name, mean_score)
 
     return render_template(
         "index.html", message=mes, message1=mes1, message2=mes2, message3=mes3, message4=mes4, message5=mes5
