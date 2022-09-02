@@ -31,7 +31,7 @@ for item in f.readlines():
     per0, per1 = get_type(user_name)
     time.sleep(1)
     L.append([rate2, per0, per1])
-    print(rate2, per0, per1)
+    print(rate2, per0, per1, user_name)
 
 f.close()
 
