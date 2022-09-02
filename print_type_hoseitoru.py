@@ -8,7 +8,7 @@ from math import log
 
 import numpy as np
 
-N = np.load("ignore/analysis_1995/users_5n_and_top_20220829.npy").T
+N = np.load("analysis_1995/users_5n_and_top_20220829.npy").T
 a = np.polyfit(N[0], N[1], 2)
 a = np.poly1d(a)
 b = np.polyfit(N[0], N[1], 2)
