@@ -59,14 +59,14 @@ for year in range(1905, 2025, 5):
 
 # 補正後rating2400(橙)以上のユーザーを集計
 for page_no in range(1, 1000):
-    URL = f"https://atcoder.jp/ranking?page={page_no}"
+    URL = f"https://atcoder.jp/ranking?contestType=algo&f.Affiliation=&f.BirthYearLowerBound=0&f.BirthYearUpperBound=9999&f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&f.RatingLowerBound=2400&f.RatingUpperBound=9999&f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={page_no}"
     with urllib.request.urlopen(URL) as res:
         html = res.read().decode("utf-8")
     # print(html)
     time.sleep(1)
     html = list(html.split("\n"))
     # print(len(html))
-    end = False
+    got = False
     for i in range(len(html)):
         line = html[i]
         if user_head in line:
@@ -94,12 +94,9 @@ for page_no in range(1, 1000):
             times = int(times)
 
             print(user_name, rate, times)
-            if rate < 2400:
-                end = True
-                break
             Data.append([user_name, rate, times])
 
-    if end:
+    if not got:
         break
 
 
