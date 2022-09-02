@@ -19,6 +19,7 @@ def post():
     mes2 = ""
     mes3 = ""
     mes4 = ""
+    mes5 = ""
     if times == 0:
         mes = "{} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。".format(name)
     else:
@@ -43,8 +44,11 @@ def post():
         mes2 = "{} さんの平均順位率: {:.4f}".format(name, first_score)
         mes3 = "内部レートによる補正 (= {} さんと同程度の内部レートの人が取得している、平均的な平均順位率) : {:.4f}".format(name, mean_score)
         mes4 = "計算に使用したコンテスト数: {:}".format(times)
+        mes5 = "{} さんの内部レート: {:.2f}".format(name, rate2)
 
-    return render_template("index.html", message=mes, message1=mes1, message2=mes2, message3=mes3, message4=mes4)
+    return render_template(
+        "index.html", message=mes, message1=mes1, message2=mes2, message3=mes3, message4=mes4, message5=mes5
+    )
 
 
 if __name__ == "__main__":
