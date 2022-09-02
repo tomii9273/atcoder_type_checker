@@ -23,7 +23,7 @@ def rate32(rate3, times):
     return rate3 + (((1 - 0.81 ** times) ** 0.5) / (1 - 0.9 ** times) - 1) * 1200 / (19 ** 0.5 - 1)
 
 
-f = open("ignore/analysis_1995/users_19x5_20220829.txt", "r")
+f = open("ignore/analysis_1995/users_5n_and_top_20220829.txt", "r")
 L = []
 for item in f.readlines():
     user_name, rate4, times = item.split()
@@ -40,4 +40,4 @@ for i in range(len(L)):
     for j in range(3):
         N[i][j] = L[i][j]
 
-np.save("ignore/analysis_1995/rate_per_19x5_20220829.npy", N)
+np.save("ignore/analysis_1995/users_5n_and_top_20220829.npy", N)
