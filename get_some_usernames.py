@@ -10,6 +10,7 @@ times_head = "<td>"
 
 Data = []
 got = False  # これがFalseのまま＝そのページにユーザーはいないので、打ち切って次の年を調べる
+checked_users = set()
 
 # 5の倍数の西暦年生まれのユーザーを集計
 for year in range(1905, 2025, 5):
@@ -52,12 +53,13 @@ for year in range(1905, 2025, 5):
 
                 print(user_name, rate, times)
                 Data.append([user_name, rate, times])
+                checked_users.add(user_name)
 
         if not got:
             break
 
 
-# 補正後rating2400(橙)以上のユーザーを集計
+# 補正後rating2400(橙)以上のユーザーを集計 (既に上記で集計したユーザーは除外)
 for page_no in range(1, 1000):
     URL = f"https://atcoder.jp/ranking?contestType=algo&f.Affiliation=&f.BirthYearLowerBound=0&f.BirthYearUpperBound=9999&f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&f.RatingLowerBound=2400&f.RatingUpperBound=9999&f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={page_no}"
     with urllib.request.urlopen(URL) as res:
@@ -93,8 +95,10 @@ for page_no in range(1, 1000):
                 ind += 1
             times = int(times)
 
-            print(user_name, rate, times)
-            Data.append([user_name, rate, times])
+            if user_name not in checked_users:
+                print(user_name, rate, times)
+                Data.append([user_name, rate, times])
+                checked_users.add(user_name)
 
     if not got:
         break
