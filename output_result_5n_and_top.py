@@ -40,4 +40,4 @@ for i in range(len(L)):
     for j in range(3):
         N[i][j] = L[i][j]
 
-np.save("ignore/analysis_1995/users_5n_and_top_20220829.npy", N)
+np.save("analysis_1995/users_5n_and_top_20220829.npy", N)
