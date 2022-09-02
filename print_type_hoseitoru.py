@@ -1,5 +1,5 @@
 # ユーザー名を入力し、コンテスト成績表と、あらかじめ得た点数と順位範囲のデータを元に、早解き度を出力する。
-# 早解き度（早解きほど小さく、0に近い）はレートと相関があるので、平均値（rate_per_19x5.npyより取得）との差を出力する。
+# 早解き度（早解きほど小さく、0に近い）はレートと相関があるので、予測値（users_5n_and_top_20220829.npy より取得）との差を出力する。
 # また、レートには補正を取ったものを使用する。
 import ast
 import json
@@ -8,7 +8,7 @@ from math import log
 
 import numpy as np
 
-N = np.load("analysis_1995/rate_per_19x5.npy").T
+N = np.load("ignore/analysis_1995/users_5n_and_top_20220829.npy").T
 a = np.polyfit(N[0], N[1], 2)
 a = np.poly1d(a)
 b = np.polyfit(N[0], N[1], 2)
