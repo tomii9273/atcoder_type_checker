@@ -1,4 +1,4 @@
-# 早解き度とレートの相関を調べるために、5の倍数の西暦年生まれかつ30回以上のアクティブ参加者の(ユーザー名, 補正後rating, rated参加数)の一覧を得る。
+# 早解き度とレートの相関を調べるために、(5の倍数の西暦年生まれ or 補正後rating2400(橙)以上) かつ30回以上のアクティブ参加者の(ユーザー名, 補正後rating, rated参加数)の一覧を得る。
 
 import time
 import urllib.request
@@ -11,6 +11,7 @@ times_head = "<td>"
 Data = []
 got = False  # これがFalseのまま＝そのページにユーザーはいないので、打ち切って次の年を調べる
 
+# 5の倍数の西暦年生まれのユーザーを集計
 for year in range(1905, 2025, 5):
     for page_no in range(1, 1000):
         URL = "https://atcoder.jp/ranking?f.Affiliation=&f.BirthYearLowerBound={0}&f.BirthYearUpperBound={0}&f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&f.RatingLowerBound=0&f.RatingUpperBound=9999&f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={1}".format(
