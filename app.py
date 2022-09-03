@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 
+from plot_result import plot_result
 from print_type_hoseitoru import get_type
 
 app = Flask(__name__)
@@ -47,7 +48,14 @@ def post():
         mes5 = "内部レートによる補正値 (= {} さんと同程度の内部レートの人が取得している、平均的な平均順位率) : {:.4f}".format(name, mean_score)
 
     return render_template(
-        "index.html", message=mes, message1=mes1, message2=mes2, message3=mes3, message4=mes4, message5=mes5
+        "index.html",
+        message=mes,
+        message1=mes1,
+        message2=mes2,
+        message3=mes3,
+        message4=mes4,
+        message5=mes5,
+        svgstr=plot_result(name, rate2, first_score, times),
     )
 
 
