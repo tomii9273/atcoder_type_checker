@@ -21,6 +21,7 @@ def post():
     mes3 = ""
     mes4 = ""
     mes5 = ""
+    mes6 = ""
     if times == 0:
         mes = "{} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。".format(name)
     else:
@@ -46,6 +47,7 @@ def post():
         mes3 = "計算に使用したコンテスト数: {:}".format(times)
         mes4 = "{} さんの平均順位率: {:.4f}".format(name, first_score)
         mes5 = "内部レートによる補正値 (= {} さんと同程度の内部レートの人が取得している、平均的な平均順位率) : {:.4f}".format(name, mean_score)
+        mes6 = "スコアは下図の黒実線と赤丸の y 座標の差を 100 倍し、符号を付けたものです。"
 
     return render_template(
         "index.html",
@@ -55,6 +57,7 @@ def post():
         message3=mes3,
         message4=mes4,
         message5=mes5,
+        message6=mes6,
         svgstr=plot_result(name, rate2, first_score, times),
     )
 
