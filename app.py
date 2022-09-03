@@ -44,7 +44,7 @@ def post():
         mes2 = "{} さんの内部レート: {:.2f}".format(name, rate2)
         mes3 = "計算に使用したコンテスト数: {:}".format(times)
         mes4 = "{} さんの平均順位率: {:.4f}".format(name, first_score)
-        mes5 = "内部レートによる補正 (= {} さんと同程度の内部レートの人が取得している、平均的な平均順位率) : {:.4f}".format(name, mean_score)
+        mes5 = "内部レートによる補正値 (= {} さんと同程度の内部レートの人が取得している、平均的な平均順位率) : {:.4f}".format(name, mean_score)
 
     return render_template(
         "index.html", message=mes, message1=mes1, message2=mes2, message3=mes3, message4=mes4, message5=mes5
