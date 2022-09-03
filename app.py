@@ -46,7 +46,7 @@ def post():
         mes2 = "{} さんの内部レート: {:.2f}".format(name, rate2)
         mes3 = "計算に使用したコンテスト数: {:}".format(times)
         mes4 = "{} さんの平均順位率: {:.4f}".format(name, first_score)
-        mes5 = "内部レートによる補正値: {:.4f} (= {} さんと同程度の内部レートの人が取得している、平均的な平均順位率)".format(mean_score, name)
+        mes5 = "内部レートによる補正値: {:.4f} ({} さんと同程度の内部レートの人が取得している、平均的な平均順位率)".format(mean_score, name)
         mes6 = "スコアは下図の黒実線と赤丸の y 座標の差を 100 倍し、符号を付けたものです。"
 
     return render_template(
