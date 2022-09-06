@@ -1,5 +1,3 @@
-import re
-
 from flask import Flask, render_template, request
 
 from plot_result import plot_result
@@ -16,8 +14,7 @@ def get():
 # postのときの処理
 @app.route("/", methods=["POST"])
 def post():
-    raw_name = request.form["name"]
-    name = "".join(re.findall("[a-zA-Z0-9_]+", raw_name))
+    name = request.form["name"]
     score, rate2, times, first_score, mean_score = get_type(name)
     mes1 = ""
     mes2 = ""
