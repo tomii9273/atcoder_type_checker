@@ -4,13 +4,19 @@ from flask import Flask, render_template, request
 
 from plot_result import plot_result
 from print_type_hoseitoru import get_type
+from utils import load_txt_one_line
 
 app = Flask(__name__)
 
 # getのときの処理
 @app.route("/", methods=["GET"])
 def get():
-    return render_template("index.html", message1="AtCoder ID を入力してください。")
+    return render_template(
+        "index.html",
+        message1="AtCoder ID を入力してください。",
+        date_site=load_txt_one_line("update_dates/date_site.txt"),
+        date_rank_data=load_txt_one_line("update_dates/date_rank_data.txt"),
+    )
 
 
 # postのときの処理
