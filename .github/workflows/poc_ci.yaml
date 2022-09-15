@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check Date
+        run: |
+          date_commit=$(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1)
+          date_txt=$(echo $(cat update_dates/date_site.txt) | cut -c 1-10)
+          if [[ $date_commit != $date_txt ]]; then exit 1; fi
