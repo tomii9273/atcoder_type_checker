@@ -17,4 +17,4 @@ jobs:
       - name: test_1
         run: echo $(echo -e $(cat update_dates/date_site.txt)"\n")
       - name: Check Date
-        run: if [[ $(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1) != $(echo -e $(cat update_dates/date_site.txt)"\n") ]]; then exit 1; fi
+        run: if [[ $(echo $(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1)) != $(echo $(cat update_dates/date_site.txt)) ]]; then exit 1; fi
