@@ -11,6 +11,5 @@ jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - name: Check Date
         run: if [[ $(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1) != $(cat update_dates/date_site.txt) ]]; then exit 1; fi
