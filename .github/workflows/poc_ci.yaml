@@ -1,10 +1,11 @@
 name: test_ci
+
 on:
   push:
     branches:
       - master
     pull_request:
-      types: opened
+      types: [opened]
 
 jobs:
   CI:
