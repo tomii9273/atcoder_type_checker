@@ -1,0 +1,13 @@
+name: test_ci
+on:
+  push:
+    branches:
+      - master
+    pull_request:
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Date
+        run: if [[ $(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1) != $(cat update_dates/date_site.txt) ]]; then exit 1; fi
