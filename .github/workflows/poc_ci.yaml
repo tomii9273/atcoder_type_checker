@@ -13,8 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: test_0
-        run: echo $(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1)
+        run: |
+          a=$(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1)
+          echo ${#a}
       - name: test_1
-        run: echo $(echo -e $(cat update_dates/date_site.txt)"\n")
+        run: |
+          b=$(echo $(cat update_dates/date_site.txt))
+          echo ${#b}
       - name: Check Date
         run: if [[ $(echo $(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1)) == $(echo $(cat update_dates/date_site.txt)) ]]; then exit 1; fi
