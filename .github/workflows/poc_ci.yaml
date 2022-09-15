@@ -13,4 +13,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Check Date
-        run: if [[ $(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1) != $(cat update_dates/date_site.txt) ]]; then exit 1; fi
+        run: if [[ $(git log --date=iso --date=format:"%Y/%m/%d" --pretty=format:"%ad" -1) != $(echo -e $(cat update_dates/date_site.txt)"\n") ]]; then exit 1; fi
