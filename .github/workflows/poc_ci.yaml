@@ -3,9 +3,9 @@ name: test_ci
 on:
   push:
     branches:
-      - master
+      - main
     pull_request:
-      types: [opened]
+      types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
   CI:
