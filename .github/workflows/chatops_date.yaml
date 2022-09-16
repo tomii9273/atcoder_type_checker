@@ -10,4 +10,4 @@ jobs:
     - name: update
       run: |
         echo OK
-      if: startsWith(github.event.comment.body, '!date')
+      if: startsWith(github.event.comment.body, 'date')
