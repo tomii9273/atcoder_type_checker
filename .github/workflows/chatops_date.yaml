@@ -1,11 +1,11 @@
 name: ChatOps
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    
+  issue_comment:
+    types: [created, edited]
 jobs:
   build:
     name: Update Date
+    if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
     - name: update
