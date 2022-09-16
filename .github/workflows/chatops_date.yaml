@@ -1,0 +1,13 @@
+name: ChatOps
+on:
+  issue_comment:
+    types: [created, edited]
+jobs:
+  build:
+    name: Update Date
+    runs-on: ubuntu-latest
+    steps:
+    - name: update
+      run: |
+        echo OK
+      if: startsWith(github.event.comment.body, '!date')
