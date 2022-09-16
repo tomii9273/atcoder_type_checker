@@ -5,7 +5,7 @@ on:
 jobs:
   build:
     name: Update Date
-    if: ${{ github.event.issue.pull_request }} && startsWith(github.event.comment.body, 'date')
+    if: contains(github.event.comment.html_url, '/pull/') && startsWith(github.event.comment.body, 'date')
     runs-on: ubuntu-latest
     steps:
     - name: update
