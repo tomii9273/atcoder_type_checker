@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: pr_commented
-      - run: |
+        run: |
           echo A comment on PR $NUMBER
         env:
           NUMBER: ${{ github.event.issue.number }}
