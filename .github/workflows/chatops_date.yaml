@@ -10,5 +10,4 @@ jobs:
     if: github.event_name == 'issue_comment' && contains(github.event.comment.html_url, '/pull/') && startsWith(github.event.comment.body, '/date')
     runs-on: ubuntu-latest
     steps:
-    - run: |
-      echo "OK"
+    - run: echo "OK"
