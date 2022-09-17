@@ -3,8 +3,8 @@ on:
   issue_comment:
     types: [created, edited]
 jobs:
-  build:
-    name: Update Date
+  update_date:
+    name: "Update Date"
     if: contains(github.event.comment.html_url, '/pull/') && startsWith(github.event.comment.body, '/date')
     runs-on: ubuntu-latest
     steps:
