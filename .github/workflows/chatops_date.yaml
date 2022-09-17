@@ -1,0 +1,13 @@
+name: ChatOps
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  update_date:
+    name: "Update Date"
+    if: ${{ github.event.issue.pull_request }} && startsWith(github.event.comment.body, '/date')
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "OK"
