@@ -1,6 +1,6 @@
 name: ChatOps
 
-on: issue_comment:
+on: issue_comment
 
 jobs:
   update_date:
