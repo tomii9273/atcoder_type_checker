@@ -1,13 +1,14 @@
 name: ChatOps
+
 on:
   issue_comment:
     types: [created, edited]
+
 jobs:
   update_date:
     name: "Update Date"
     if: github.event_name == 'issue_comment' && contains(github.event.comment.html_url, '/pull/') && startsWith(github.event.comment.body, '/date')
     runs-on: ubuntu-latest
     steps:
-    - name: update
-      run: |
+    - run: |
         echo OK
