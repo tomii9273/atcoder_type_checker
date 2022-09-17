@@ -9,6 +9,8 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - name: pr_commented
       - run: |
           echo A comment on PR $NUMBER
         env:
