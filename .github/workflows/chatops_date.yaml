@@ -9,4 +9,6 @@ jobs:
     name: "Update Date"
     if: startsWith(github.event.comment.body, '/date')
     runs-on: ubuntu-latest
-    run: echo "OK"
+    steps:
+      - run: |
+          echo A comment on issue $NUMBER
