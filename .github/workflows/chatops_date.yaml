@@ -16,7 +16,7 @@ jobs:
           git config user.email github-actions@github.com
           git fetch
           git checkout ${{ github.head_ref }}
-          echo $(date +'%Y-%m-%d') >> update_dates/date_site.txt
+          echo $(date +'%Y/%m/%d') >> update_dates/date_site.txt
           git add update_dates/date_site.txt
           git commit -m "update koushinbi (by github-actions)"
           git push
