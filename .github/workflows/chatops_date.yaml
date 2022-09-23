@@ -10,4 +10,16 @@ jobs:
     if: ${{ github.event.issue.pull_request }} && startsWith(github.event.comment.body, '/date')
     runs-on: ubuntu-latest
     steps:
-      - run: echo "OK1"
+      - uses: actions/checkout@v3
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git fetch
+          git checkout ${{ github.head_ref }}
+          rm -f update_dates/date_site.txt
+          echo $(date +'%Y/%m/%d') >> update_dates/date_site.txt
+          git add update_dates/date_site.txt
+          git commit -m "update koushinbi (by github-actions)"
+          git push
+        env:
+          TZ: 'Asia/Tokyo'
