@@ -16,6 +16,8 @@ jobs:
         run: |
           date_now=$(date +'%Y/%m/%d')
           date_txt=$(echo $(cat update_dates/date_site.txt) | cut -c 1-10)
+          echo $date_now
+          echo $date_txt
           if [[ $date_commit != $date_txt ]]; then exit 1; fi
         env:
           TZ: 'Asia/Tokyo'
