@@ -16,6 +16,17 @@ jobs:
         run: |
           date_now=$(date +'%Y/%m/%d')
           date_txt=$(echo $(cat update_dates/date_site.txt) | cut -c 1-10)
+          echo '00' ${{ github.head_ref }}
+          echo '01' ${GITHUB_REF#refs/heads/}
+          echo '02' ${GITHUB_HEAD_REF}
+          echo '03' ${{ github.ref }}
+          echo '04' ${GITHUB_REF#refs/heads/}
+          echo '05' ${GITHUB_REF_CONTEXT#refs/heads/}
+          echo '1' $GITHUB_REF
+          echo '2' ${{ github.ref }}
+          echo '3' ${{ github.ref_name }}
+          echo '4' ${{ github.head_ref }}
+          echo '5' ${{ github.base_ref }}
           if [ $date_now != $date_txt ]; then
             git config user.name github-actions
             git config user.email github-actions@github.com
