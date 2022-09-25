@@ -10,36 +10,23 @@ jobs:
     if: ${{ github.event.issue.pull_request }} && startsWith(github.event.comment.body, '/date')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-        id: extract_branch
-
-      - name: Print branch name
+      - name: get upstream branch
+        id: upstreambranch
         env:
-          BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
-        run: echo $BRANCH_NAME
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "::set-output name=branchname::$(curl -H "Authorization: token ${GITHUB_TOKEN}" ${{ github.event.issue.pull_request.url }} | jq '.head.ref' | sed 's/\"//g')"
+
+      - name: Checkout upstream repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.upstreambranch.outputs.branchname }}
       
       - name: Update
         run: |
           date_now=$(date +'%Y/%m/%d')
           date_txt=$(echo $(cat update_dates/date_site.txt) | cut -c 1-10)
-          echo '00' ${{ github.head_ref }}
-          echo '01' ${GITHUB_REF#refs/heads/}
-          echo '02' ${GITHUB_HEAD_REF}
-          echo '03' ${{ github.ref }}
-          echo '04' ${GITHUB_REF#refs/heads/}
-          echo '05' ${GITHUB_REF_CONTEXT#refs/heads/}
-          echo '1' $GITHUB_REF
-          echo '2' ${{ github.ref }}
-          echo '3' ${{ github.ref_name }}
-          echo '4' ${{ github.head_ref }}
-          echo '5' ${{ github.base_ref }}
-          echo "01" "::set-output name=branch::$(echo $PR | jq -r '.head.ref')"
-          echo "02" "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+          echo ${{ steps.upstreambranch.outputs.branchname }}
           if [ $date_now != $date_txt ]; then
             git config user.name github-actions
             git config user.email github-actions@github.com
