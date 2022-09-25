@@ -12,6 +12,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: extract_branch
+
+      - name: Print branch name
+        env:
+          BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
+        run: echo $BRANCH_NAME
+      
       - name: Update
         run: |
           date_now=$(date +'%Y/%m/%d')
@@ -27,6 +38,8 @@ jobs:
           echo '3' ${{ github.ref_name }}
           echo '4' ${{ github.head_ref }}
           echo '5' ${{ github.base_ref }}
+          echo "01" "::set-output name=branch::$(echo $PR | jq -r '.head.ref')"
+          echo "02" "::set-output name=branch::${GITHUB_REF#refs/heads/}"
           if [ $date_now != $date_txt ]; then
             git config user.name github-actions
             git config user.email github-actions@github.com
