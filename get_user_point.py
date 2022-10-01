@@ -10,7 +10,8 @@ def get_user_point(
     contest_name: str, contest_start_time: datetime.datetime, contest_end_time: datetime.datetime, user_name: str
 ) -> int:
     """
-    ある人の特定コンテスト中に獲得した得点を得る
+    ある人の特定コンテスト中に獲得した得点を、提出一覧から得る。
+    (順位表から得る場合、認証が必要。)
 
     Args:
         contest_name (str): コンテスト名6文字 (axc000 の形式)
