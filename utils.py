@@ -4,7 +4,7 @@ def load_txt_one_line(path: str) -> str:
     return f.readline().rstrip("\n")
 
 
-def line_slice(line: str, prefix: str, suffix: str) -> str:
+def slice_line(line: str, prefix: str, suffix: str) -> str:
     """文字列 line の (最も左の) prefix と (その直後の) suffix に挟まれている文字列を切り出す"""
     slice_start_ind = line.index(prefix) + len(prefix)
     slice_end_ind = line.index(suffix, slice_start_ind)
