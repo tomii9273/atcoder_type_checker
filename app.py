@@ -68,6 +68,8 @@ def post():
         message5=mes5,
         message6=mes6,
         svgstr=plot_result(name, rate2, first_score, times),
+        date_site=load_txt_one_line("update_dates/date_site.txt"),
+        date_rank_data=load_txt_one_line("update_dates/date_rank_data.txt"),
     )
 
 
