@@ -57,6 +57,10 @@ def post():
         mes4 = "{} さんの平均順位率: {:.4f}".format(name, first_score)
         mes5 = "内部レートによる補正値: {:.4f} ({} さんと同程度の内部レートの人が取得している、平均的な平均順位率)".format(mean_score, name)
         mes6 = "スコアは下図の黒実線と赤丸の y 座標の差を 100 倍し、符号を付けたものです。"
+    message_for_tweet = mes
+    if mes1 != "":
+        message_for_tweet += " (" + mes1 + ")"
+    message_for_tweet += " (" + mes3 + ")"
 
     return render_template(
         "index.html",
@@ -67,6 +71,7 @@ def post():
         message4=mes4,
         message5=mes5,
         message6=mes6,
+        message_for_tweet=message_for_tweet,
         svgstr=plot_result(name, rate2, first_score, times),
         date_site=load_txt_one_line("update_dates/date_site.txt"),
         date_rank_data=load_txt_one_line("update_dates/date_rank_data.txt"),
