@@ -60,7 +60,8 @@ def post():
     message_for_tweet = mes
     if mes1 != "":
         message_for_tweet += " (" + mes1 + ")"
-    message_for_tweet += " (" + mes3 + ")"
+    if mes3 != "":
+        message_for_tweet += " (" + mes3 + ")"
 
     return render_template(
         "index.html",
