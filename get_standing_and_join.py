@@ -12,7 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # パラメータここから
-contest_names = [f"abc{i:03}" for i in range(279, 284)] + [f"agc{i:03}" for i in range(59, 61)]
+contest_names = [f"abc{i:03}" for i in range(284, 287)] + [f"arc{i:03}" for i in range(153, 155)]
 # パラメータここまで
 
 pw = input("Password?: ")
