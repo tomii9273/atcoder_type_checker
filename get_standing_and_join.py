@@ -13,9 +13,9 @@ from bs4 import BeautifulSoup
 
 # パラメータここから
 contest_names = (
-    [f"abc{i:03}" for i in range(287, 292)]
-    + [f"arc{i:03}" for i in range(155, 158)]
-    + [f"agc{i:03}" for i in range(61, 62)]
+    [f"abc{i:03}" for i in range(292, 296)]
+    + [f"arc{i:03}" for i in range(158, 159)]
+    + [f"agc{i:03}" for i in range(62, 62)]
 )
 # パラメータここまで
 
