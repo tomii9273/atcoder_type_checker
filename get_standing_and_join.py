@@ -6,22 +6,45 @@
 import ast
 import codecs
 import json
+import re
 import time
+import urllib.request
 
 import requests
 from bs4 import BeautifulSoup
 
-# パラメータここから
-contest_names = (
-    [f"abc{i:03}" for i in range(292, 296)]
-    + [f"arc{i:03}" for i in range(158, 159)]
-    + [f"agc{i:03}" for i in range(62, 62)]
-)
-# パラメータここまで
+contest_names = set()  # 新たに順位表 json を取得するコンテストの名前一覧
 
-pw = input("Password?: ")
+# 過去のコンテストのページから、コンテスト名を取得 (1 ページのみ見る)
+url = "https://atcoder.jp/contests/archive"
+with urllib.request.urlopen(url) as res:
+    html = res.read().decode("utf-8").splitlines()
+
+contest_name_head = '<a href="/contests/'
+
+for line in html:
+    if contest_name_head in line:
+        ind_start = line.index(contest_name_head) + len(contest_name_head)
+        contest_name = line[ind_start : ind_start + 6]
+        if re.fullmatch("a[brg]c[0-9]{3}", contest_name):
+            contest_names.add(contest_name)
+
+# 既に取得済のコンテストを除外
+f = open("points/points.txt", "r")
+for item in f.readlines():
+    key_exist = ast.literal_eval(item).keys()
+    assert len(key_exist) == len(set(key_exist))
+    contest_names -= set(key_exist)
+    break
+f.close()
+
+contest_names = sorted(list(contest_names))
+
+print(f"新たに順位表 json を取得するコンテストの名前一覧: {contest_names}")
 
 # 各コンテストの順位表jsonを取得
+pw = input("Password?: ")
+
 for contest_name in contest_names:
     print("start", contest_name)
 
