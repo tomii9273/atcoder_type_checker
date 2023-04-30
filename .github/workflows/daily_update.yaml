@@ -41,3 +41,5 @@ jobs:
             git pull
             git push origin main
           fi
+        env:
+          TZ: 'Asia/Tokyo'
