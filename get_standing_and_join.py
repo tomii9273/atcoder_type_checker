@@ -7,6 +7,7 @@ import ast
 import codecs
 import json
 import re
+import sys
 import time
 import urllib.request
 
@@ -43,7 +44,11 @@ contest_names = sorted(list(contest_names))
 print(f"新たに順位表 json を取得するコンテストの名前一覧: {contest_names}")
 
 # 各コンテストの順位表jsonを取得
-pw = input("Password?: ")
+
+if len(sys.argv) >= 2:
+    pw = sys.argv[1]  # GitHub Actions でこの記法を使用している
+else:
+    pw = input("Password?: ")
 
 for contest_name in contest_names:
     print("start", contest_name)
