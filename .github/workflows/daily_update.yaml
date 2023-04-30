@@ -1,8 +1,8 @@
 name: daily_update
 on:
   schedule:
-    # 日本時間で毎日 2 時 20 分に実行
-    - cron: '20 17 * * *'
+    # 日本時間で毎日 15 時に実行
+    - cron: '0 6 * * *'
 
 jobs:
   build:
