@@ -79,5 +79,11 @@ def post():
     )
 
 
+# 以下、サブページの表示
+@app.route("/qa", methods=["GET"])
+def qa():
+    return render_template("qa.html")
+
+
 if __name__ == "__main__":
     app.run()
