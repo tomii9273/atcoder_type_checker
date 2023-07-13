@@ -1,5 +1,5 @@
 numpy==1.24.0
 flask
-flask_limiter
+Flask-Limiter
 gunicorn
 japanize_matplotlib
