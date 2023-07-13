@@ -1,12 +1,17 @@
 import re
 
 from flask import Flask, render_template, request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 from plot_result import plot_result
 from print_type_hoseitoru import get_type
 from utils import load_txt_one_line
 
 app = Flask(__name__)
+app.config["RATELIMIT_HEADERS_ENABLED"] = True  # ヘッダーに RateLimit 情報を出力
+limiter = Limiter(get_remote_address, app=app, default_limits=["50 per minute"])
+
 
 # getのときの処理
 @app.route("/", methods=["GET"])
