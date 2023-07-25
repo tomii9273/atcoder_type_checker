@@ -5,6 +5,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
+from const import DEGREE_OF_HOSEI_CURVE
+
 matplotlib.use("Agg")
 
 
@@ -21,7 +23,7 @@ def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
 
     fig = plt.figure(figsize=(10, 5))
 
-    p2 = np.poly1d(np.polyfit(x, y, 2))
+    p2 = np.poly1d(np.polyfit(x, y, DEGREE_OF_HOSEI_CURVE))
 
     xp = np.linspace(-500, 4000, 100)
 
