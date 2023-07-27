@@ -10,3 +10,9 @@ https://atcoder-type-checker.herokuapp.com/
 - 作成者 Twitter: https://twitter.com/Tomii9273
 - AtCoder: https://atcoder.jp
 - 「#AtCoder_Type_Checker」での最新ツイート: https://twitter.com/search?q=%23AtCoder_Type_Checker%20&src=recent_search_click&f=live
+
+## PR について (暫定・自分用)
+
+- CI で「コミット時の日付 = サイト最終更新の日付 (`date_site.txt` のもの)」を確認している。そうでない場合、PR に「/date」とコメントすると GitHub Action による日付更新コミットが行われる。
+  - 現状は他のコメントでも反応してしまうみたい
+  - 「/date」からマージの間に日を跨がないよう注意
