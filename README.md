@@ -14,5 +14,4 @@ https://atcoder-type-checker.herokuapp.com/
 ## PR について (暫定・自分用)
 
 - CI で「コミット時の日付 = サイト最終更新の日付 (`date_site.txt` のもの)」を確認している。そうでない場合、PR に「/date」とコメントすると GitHub Action による日付更新コミットが行われる。
-  - 現状は他のコメントでも反応してしまうみたい
   - 「/date」からマージの間に日を跨がないよう注意
