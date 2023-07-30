@@ -46,20 +46,21 @@ def post():
         score *= 100
         mes_main = "{} さんのスコアは {:.2f} です。".format(name, score)
         mes_outlier = ""
-        if -1 < score < 1:
+        if score < -10:
+            mes_main += "かなり、早く解くタイプです。"
+        elif score < -5:
+            mes_main += "早く解くタイプです。"
+        elif score < -1:
+            mes_main += "わずかに、早く解くタイプです。"
+        elif score < 1:
             mes_main += "中間的なタイプです。"
+        elif score < 5:
+            mes_main += "わずかに、多く解くタイプです。"
+        elif score < 10:
+            mes_main += "多く解くタイプです。"
         else:
-            if 1 < abs(score) < 5:
-                mes_main += "わずかに、"
-            elif abs(score) > 10:
-                mes_main += "かなり、"
+            mes_main += "かなり、多く解くタイプです。"
 
-            if score > 0:
-                mes_main += "多く解く"
-            else:
-                mes_main += "早く解く"
-
-            mes_main += "タイプです。"
         if not (0 <= rate2 <= 3200):
             mes_outlier += "※ 内部レートが 0 ～ 3200 の範囲外のため、結果の信頼度が低い可能性があります。"
 
