@@ -38,54 +38,56 @@ def post():
     raw_name = request.form["name"]
     name = "".join(re.findall("[a-zA-Z0-9_]+", raw_name))
     score, rate2, times, first_score, mean_score = get_type(name)
-    mes1 = ""
-    mes2 = ""
-    mes3 = ""
-    mes4 = ""
-    mes5 = ""
-    mes6 = ""
     if times == 0:
-        mes = "{} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。".format(name)
+        mes_main = "{} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。".format(name)
+        mes_for_tweet = mes_main
+        mes = add_p(add_b(mes_main))
     else:
         score *= 100
-        mes = "{} さんのスコアは {:.2f} です。".format(name, score)
+        mes_main = "{} さんのスコアは {:.2f} です。".format(name, score)
+        mes_outlier = ""
         if -1 < score < 1:
-            mes += "中間的なタイプです。"
+            mes_main += "中間的なタイプです。"
         else:
             if 1 < abs(score) < 5:
-                mes += "わずかに、"
+                mes_main += "わずかに、"
             elif abs(score) > 10:
-                mes += "かなり、"
+                mes_main += "かなり、"
 
             if score > 0:
-                mes += "多く解く"
+                mes_main += "多く解く"
             else:
-                mes += "早く解く"
+                mes_main += "早く解く"
 
-            mes += "タイプです。"
+            mes_main += "タイプです。"
         if not (0 <= rate2 <= 3200):
-            mes1 += "※ 内部レートが 0 ～ 3200 の範囲外のため、結果の信頼度が低い可能性があります。"
-        mes2 = "{} さんの内部レート: {:.2f}".format(name, rate2)
-        mes3 = "計算に使用したコンテスト数: {:}".format(times)
-        mes4 = "{} さんの平均順位率: {:.4f}".format(name, first_score)
-        mes5 = "内部レートによる補正値: {:.4f} ({} さんと同程度の内部レートの人が取得している、平均的な平均順位率)".format(mean_score, name)
-        mes6 = "スコアは下図の黒実線と赤丸の y 座標の差を 100 倍し、符号を付けたものです。"
-    message_for_tweet = mes
-    if mes1 != "":
-        message_for_tweet += " (" + mes1 + ")"
-    if mes3 != "":
-        message_for_tweet += " (" + mes3 + ")"
+            mes_outlier += "※ 内部レートが 0 ～ 3200 の範囲外のため、結果の信頼度が低い可能性があります。"
+
+        mes_inner_rate = "{} さんの内部レート: {:.2f}".format(name, rate2)
+        mes_n_contest = "計算に使用したコンテスト数: {:}".format(times)
+        mes_mean_rank_rate = "{} さんの平均順位率: {:.4f}".format(name, first_score)
+        mes_hosei = "内部レートによる補正値: {:.4f} ({} さんと同程度の内部レートの人が取得している、平均的な平均順位率)".format(mean_score, name)
+        mes_score = "スコアは下図の黒実線と赤丸の y 座標の差を 100 倍し、符号を付けたものです。"
+
+        mes = (
+            add_p(add_b(mes_main))
+            + add_p(add_b(mes_outlier))
+            + add_p(mes_inner_rate)
+            + add_p(mes_n_contest)
+            + add_p(mes_mean_rank_rate)
+            + add_p(mes_hosei)
+            + add_p(add_b(mes_score))
+        )
+
+        mes_for_tweet = mes_main
+        if mes_outlier != "":
+            mes_for_tweet += " (" + mes_outlier + ")"
+        mes_for_tweet += " (" + mes_n_contest + ")"
 
     return render_template(
         "index.html",
         message=mes,
-        message1=mes1,
-        message2=mes2,
-        message3=mes3,
-        message4=mes4,
-        message5=mes5,
-        message6=mes6,
-        message_for_tweet=message_for_tweet,
+        message_for_tweet=mes_for_tweet,
         svgstr=plot_result(name, rate2, first_score, times),
         date_site=load_txt_one_line("update_dates/date_site.txt"),
         date_rank_data=load_txt_one_line("update_dates/date_rank_data.txt"),
