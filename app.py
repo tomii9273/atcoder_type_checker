@@ -13,6 +13,10 @@ app.config["RATELIMIT_HEADERS_ENABLED"] = True  # ヘッダーに RateLimit 情�
 limiter = Limiter(get_remote_address, app=app, default_limits=["50 per minute"])
 
 
+date_site = load_txt_one_line("update_dates/date_site.txt")
+date_rank_data = load_txt_one_line("update_dates/date_rank_data.txt")
+
+
 def add_p(s: str) -> str:
     return "<p>" + s + "</p>"
 
@@ -27,8 +31,8 @@ def get():
     return render_template(
         "index.html",
         message1="AtCoder ID を入力してください。",
-        date_site=load_txt_one_line("update_dates/date_site.txt"),
-        date_rank_data=load_txt_one_line("update_dates/date_rank_data.txt"),
+        date_site=date_site,
+        date_rank_data=date_rank_data,
     )
 
 
@@ -90,8 +94,8 @@ def post():
         message=mes,
         message_for_tweet=mes_for_tweet,
         svgstr=plot_result(name, rate2, first_score, times),
-        date_site=load_txt_one_line("update_dates/date_site.txt"),
-        date_rank_data=load_txt_one_line("update_dates/date_rank_data.txt"),
+        date_site=date_site,
+        date_rank_data=date_rank_data,
     )
 
 
@@ -102,4 +106,4 @@ def qa():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
