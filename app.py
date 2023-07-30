@@ -28,9 +28,10 @@ def add_b(s: str) -> str:
 # getのときの処理
 @app.route("/", methods=["GET"])
 def get():
+    mes_get = "AtCoder ID を入力してください。"
     return render_template(
         "index.html",
-        message1="AtCoder ID を入力してください。",
+        message=add_p(add_b(mes_get)),
         date_site=date_site,
         date_rank_data=date_rank_data,
     )
