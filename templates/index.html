@@ -16,13 +16,9 @@
 			<input type="text" id="name" name="name" placeholder="AtCoder ID"> <input type="submit" value="OK">
 		</div>
 	</form>
-	<p><b>{{ message }}</b></p>
-	<p><b>{{ message1 }}</b></p>
-	<p>{{ message2 }}</p>
-	<p>{{ message3 }}</p>
-	<p>{{ message4 }}</p>
-	<p>{{ message5 }}</p>
-	<p><b>{{ message6 }}</b></p>
+
+	{{ message | safe}}
+	
 	<p><a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
 			data-text="{{ message_for_tweet }}" data-hashtags="AtCoder_Type_Checker" data-show-count="false">Tweet</a>
 		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
