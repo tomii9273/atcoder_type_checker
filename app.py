@@ -72,7 +72,7 @@ def post():
         mes_inner_rate = "{} さんの内部レート: {:.2f}".format(name, rate2)
         mes_n_contest = "計算に使用したコンテスト数: {:}".format(times)
         mes_mean_rank_rate = "{} さんの平均順位率: {:.4f}".format(name, first_score)
-        mes_hosei = "内部レートによる補正値: {:.4f} ({} さんと同程度の内部レートの人が取得している、平均的な平均順位率)".format(mean_score, name)
+        mes_hosei = "内部レートによる補正値: {:.4f} ({} さんと同程度の内部レートの人が平均的に取得している平均順位率)".format(mean_score, name)
         mes_score = "スコアは下図の黒実線と赤丸の y 座標の差を 100 倍し、符号を付けたものです。"
 
         mes = (
