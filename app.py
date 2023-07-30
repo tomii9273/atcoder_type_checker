@@ -13,6 +13,14 @@ app.config["RATELIMIT_HEADERS_ENABLED"] = True  # ヘッダーに RateLimit 情�
 limiter = Limiter(get_remote_address, app=app, default_limits=["50 per minute"])
 
 
+def add_p(s: str) -> str:
+    return "<p>" + s + "</p>"
+
+
+def add_b(s: str) -> str:
+    return "<b>" + s + "</b>"
+
+
 # getのときの処理
 @app.route("/", methods=["GET"])
 def get():
