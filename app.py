@@ -67,7 +67,7 @@ def post():
             mes_main += "かなり、多く解くタイプです。"
 
         if not (0 <= rate2 <= 3200):
-            mes_outlier += "※ 内部レートが 0 ～ 3200 の範囲外のため、結果の信頼度が低い可能性があります。"
+            mes_outlier += "※ 内部レートが 0 ～ 3200 の範囲外のため、サンプル不足により結果の信頼度が低くなっています。"
 
         mes_inner_rate = "{} さんの内部レート: {:.2f}".format(name, rate2)
         mes_n_contest = "計算に使用したコンテスト数: {:}".format(times)
