@@ -30,12 +30,13 @@
         <p class="question">Q4: 順位率を平均する際に、同じ点数を取得した参加者の人数で重みづけした平均をとると良いのではないでしょうか？</p>
         <p class="answer">A4: その可能性はあります。今後調査・導入をするかもしれません。</p>
         <p class="question">Q5: バグ・記載ミス・誤字脱字等があります。または、スコアやプロットが正常に表示されません。</p>
-        <p class="answer">A5: 申し訳ございません。<a href="https://twitter.com/Tomii9273">Twitter</a> まで連絡をいただけると嬉しいです。</p>
+        <p class="answer">A5: 申し訳ございません。<a href="https://twitter.com/Tomii9273">Twitter (X)</a> まで連絡をいただけると嬉しいです。</p>
         <p class="question">Q6: ソースコードは公開していますか？</p>
         <p class="answer">A6: 現在、公開していません。(GitHub のプライベートリポジトリで管理しています。)</p>
         <p class="question">Q7: リポジトリにはどのようなデータを保存していますか？</p>
         <p class="answer">A7: 各コンテストにおける「A 位から B 位までの得点が
-            C 点であった」というデータを保存しています。これを「順位データ」と呼んでいます。順位表そのものや、各ユーザーのコンテスト成績表などは保存していません。</p>
+            C 点であった」というデータ (これを「順位データ」と呼んでいます)・補正値算出に使用したユーザーの (内部レート, 平均順位率) を保存しています。<br>
+            順位表そのもの・各ユーザーのコンテスト成績表・各ユーザーの AtCoder ID は保存していません。</p>
         <p class="question">Q8: 順位データの自動更新はどのような方法で行っていますか？</p>
         <p class="answer">A8: GitHub Actions で行っています。</p>
         <p class="question">Q9: 補正値算出に使用したユーザーの (内部レート, 平均順位率) からどのようにして補正値ラインを作成していますか？</p>
@@ -43,6 +44,8 @@
         <p class="question">Q10: 「Too Many Requests」と表示されます。</p>
         <p class="answer">A10: 1 分程待ってから更新してみてください。AtCoder および当サイトへの DoS 攻撃等の対策として、同一 IP アドレスからのアクセスを最大
             50 回/分に制限しています。ページの更新や OK ボタンのクリック等がアクセスとしてカウントされます。</p>
+        <p class="question">Q11: AtCoder を退会した (削除した) ID や、変更前の ID でも判定ができてしまいます。</p>
+        <p class="answer">A11: 「https&#x3a;//atcoder.jp/users/(ここに ID が入る)/history/json」に成績データが残っている場合は、判定できてしまうことがあります。</p>
     <a href="{{url_for('get')}}">戻る</a>
 </body>
 

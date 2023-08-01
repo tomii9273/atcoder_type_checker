@@ -7,7 +7,7 @@ on:
 jobs:
   update_date:
     name: "Update Date"
-    if: ${{ github.event.issue.pull_request }} && startsWith(github.event.comment.body, '/date')
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/date') }}
     runs-on: ubuntu-latest
     steps:
       - name: get upstream branch
@@ -15,7 +15,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "::set-output name=branchname::$(curl -H "Authorization: token ${GITHUB_TOKEN}" ${{ github.event.issue.pull_request.url }} | jq '.head.ref' | sed 's/\"//g')"
+          echo "branchname=$(curl -H "Authorization: token ${GITHUB_TOKEN}" ${{ github.event.issue.pull_request.url }} | jq '.head.ref' | sed 's/\"//g')" >> $GITHUB_OUTPUT
 
       - name: Checkout upstream repo
         uses: actions/checkout@v3
