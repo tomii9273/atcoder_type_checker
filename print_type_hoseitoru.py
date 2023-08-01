@@ -24,10 +24,6 @@ for item in f.readlines():
 f.close()
 
 
-def test(a):
-    return 12
-
-
 def get_type(user_name):
     url = "https://atcoder.jp/users/{}/history/json".format(user_name)
 
