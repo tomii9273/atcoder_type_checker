@@ -5,29 +5,17 @@ import ast
 import json
 import time
 import urllib.request
-from math import log
 
 import numpy as np
 
 from print_type import get_type
-
-
-def rate43(rate4):
-    rate = max(rate4, 0.1)
-    if rate < 400:
-        return 400 - 400 * log(400 / rate)
-    return rate
-
-
-def rate32(rate3, times):
-    return rate3 + (((1 - 0.81 ** times) ** 0.5) / (1 - 0.9 ** times) - 1) * 1200 / (19 ** 0.5 - 1)
-
+from utils import rate_3_to_2, rate_4_to_3
 
 f = open("ignore/analysis_1995/users_5n_and_top_20220829.txt", "r")
 L = []
 for item in f.readlines():
     user_name, rate4, times = item.split()
-    rate2 = rate32(rate43(int(rate4)), int(times))
+    rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), int(times))
     per0, per1 = get_type(user_name)
     time.sleep(1)
     L.append([rate2, per0, per1])

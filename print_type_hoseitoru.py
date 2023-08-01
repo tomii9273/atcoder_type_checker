@@ -4,28 +4,17 @@
 import ast
 import json
 import urllib.request
-from math import log
 
 import numpy as np
 
 from const import DEGREE_OF_HOSEI_CURVE
+from utils import rate_3_to_2, rate_4_to_3
 
 N = np.load("analysis_1995/users_5n_and_top_20220829.npy").T
 a = np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE)
 a = np.poly1d(a)
 b = np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE)
 b = np.poly1d(b)
-
-
-def rate43(rate4):
-    rate = max(rate4, 0.1)
-    if rate < 400:
-        return 400 - 400 * log(400 / rate)
-    return rate
-
-
-def rate32(rate3, times):
-    return rate3 + (((1 - 0.81 ** times) ** 0.5) / (1 - 0.9 ** times) - 1) * 1200 / (19 ** 0.5 - 1)
 
 
 f = open("points/points.txt", "r")
@@ -40,7 +29,6 @@ def test(a):
 
 
 def get_type(user_name):
-
     url = "https://atcoder.jp/users/{}/history/json".format(user_name)
 
     with urllib.request.urlopen(url) as res:
@@ -78,7 +66,7 @@ def get_type(user_name):
     per1 = per_w / sum_w
 
     rate4 = js[-1]["NewRating"]
-    rate2 = rate32(rate43(int(rate4)), n_contest)
+    rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), n_contest)
     # print(rate4, rate2, cnt, times)
 
     per0s = per0 - a(rate2)
