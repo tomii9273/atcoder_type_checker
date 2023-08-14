@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+li {
+    padding: 3px 0;
+}
+
+table {
+    margin-top: 6px;
+}
+
+table td {
+    padding: 3px 5px;  /*上下3pxで左右5px*/
+}
