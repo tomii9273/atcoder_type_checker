@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
 	<title>AtCoder Type Checker</title>
 </head>
 
@@ -39,32 +40,32 @@
 		<li><b>スコア</b>: ((平均順位率) − (内部レートによる補正値)) * 100 です。スコアに応じて、以下の文が表示されます。
 			<table border="1">
 				<tr align="right">
-					<td>～ −10</td>
-					<td>かなり、早く解くタイプ</td>
-				</tr>
-				<tr align="right">
-					<td>−10 ～ −5</td>
-					<td>早く解くタイプ</td>
-				</tr>
-				<tr align="right">
-					<td>−5 ～ −1</td>
-					<td>わずかに、早く解くタイプ</td>
-				</tr>
-				<tr align="right">
-					<td>−1 ～ 1</td>
-					<td>中間的なタイプ</td>
-				</tr>
-				<tr align="right">
-					<td>1 ～ 5</td>
-					<td>わずかに、多く解くタイプ</td>
+					<td>10 ～</td>
+					<td>かなり、多く解くタイプ</td>
 				</tr>
 				<tr align="right">
 					<td>5 ～ 10</td>
 					<td>多く解くタイプ</td>
 				</tr>
 				<tr align="right">
-					<td>10 ～</td>
-					<td>かなり、多く解くタイプ</td>
+					<td>1 ～ 5</td>
+					<td>わずかに、多く解くタイプ</td>
+				</tr>
+				<tr align="right">
+					<td>−1 ～ 1</td>
+					<td>中間的なタイプ</td>
+				</tr>
+				<tr align="right">
+					<td>−5 ～ −1</td>
+					<td>わずかに、早く解くタイプ</td>
+				</tr>
+				<tr align="right">
+					<td>−10 ～ −5</td>
+					<td>早く解くタイプ</td>
+				</tr>
+				<tr align="right">
+					<td>～ −10</td>
+					<td>かなり、早く解くタイプ</td>
 				</tr>
 			</table>
 		</li>
