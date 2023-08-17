@@ -5,6 +5,11 @@ import ast
 import json
 import urllib.request
 
+import numpy as np
+
+from const import DEGREE_OF_HOSEI_CURVE
+from utils import rate_3_to_2, rate_4_to_3
+
 
 class Calc:
     def __init__(self) -> None:
@@ -47,7 +52,26 @@ class Calc:
                     sum_per += per
                     # print(contest_name, rank, score, per)
         if cnt == 0:
-            return (0, 0, 0)
+            return (0, 0, 0, 0)
+        rate4 = js[-1]["NewRating"]
         per0 = sum_per / cnt
         per1 = per_w / sum_w
-        return (per0, per1, cnt)
+        return (per0, per1, cnt, rate4)
+
+    def get_score(self, user_name, hosei_file_name):
+        N = np.load(f"analysis_1995/{hosei_file_name}.npy").T
+        a = np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE)
+        a = np.poly1d(a)
+        b = np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE)
+        b = np.poly1d(b)
+
+        per0, per1, n_contest, rate4 = self.get_rank_rate(self, user_name)
+
+        rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), n_contest)
+        # print(rate4, rate2, cnt, times)
+
+        per0s = per0 - a(rate2)
+        per1s = per1 - b(rate2)
+
+        # return (per0, per1, per0s, per1s)
+        return per0s, rate2, n_contest, per0, a(rate2)
