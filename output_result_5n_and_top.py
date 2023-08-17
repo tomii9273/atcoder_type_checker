@@ -5,7 +5,7 @@ import time
 
 import numpy as np
 
-from print_type import get_type
+from print_type import Calc
 from utils import rate_3_to_2, rate_4_to_3
 
 
@@ -14,11 +14,12 @@ def get_type_for_hosei(Data, file_name):
     補正に使用する (ユーザー名, 補正後 rating, rated 参加数) の一覧から、
     (内部レート (第二段階), 平均順位率, 重み付き平均順位率 (現在未使用)) の一覧を求め、保存する。
     """
+    calc = Calc()
     L = []
     for i in range(len(Data)):
         user_name, rate4, times = Data[i][0], Data[i][1], Data[i][2]
         rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), int(times))
-        per0, per1 = get_type(user_name)
+        per0, per1, _, _ = calc.get_rank_rate(user_name)
         time.sleep(1)
         L.append([rate2, per0, per1])
 

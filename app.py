@@ -5,7 +5,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
 from plot_result import plot_result
-from print_type_hoseitoru import get_type
+from print_type import Calc
 from utils import load_txt_one_line
 
 app = Flask(__name__)
@@ -42,7 +42,8 @@ def get():
 def post():
     raw_name = request.form["name"]
     name = "".join(re.findall("[a-zA-Z0-9_]+", raw_name))
-    hosei_mean_rank_rate, rate2, n_contest, mean_rank_rate, hoseichi = get_type(name)
+    calc = Calc()
+    hosei_mean_rank_rate, rate2, n_contest, mean_rank_rate, hoseichi = calc.get_score(name)
     if n_contest == 0:
         mes_main = "{} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。".format(name)
         mes_for_tweet = mes_main
