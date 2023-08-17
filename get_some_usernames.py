@@ -105,11 +105,3 @@ def get_users_for_hosei():
         if not got:
             break
     return Data
-
-
-f = open("ignore/analysis_1995/users_5n_and_top_20220829.txt", "w")
-Data = get_users_for_hosei()
-for i in range(len(Data)):
-    f.write("{} {} {}".format(Data[i][0], Data[i][1], Data[i][2]))
-    f.write("\n")
-f.close()

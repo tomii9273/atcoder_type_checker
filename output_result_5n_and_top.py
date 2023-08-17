@@ -8,21 +8,23 @@ import numpy as np
 from print_type import get_type
 from utils import rate_3_to_2, rate_4_to_3
 
-f = open("ignore/analysis_1995/users_5n_and_top_20220829.txt", "r")
-L = []
-for item in f.readlines():
-    user_name, rate4, times = item.split()
-    rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), int(times))
-    per0, per1 = get_type(user_name)
-    time.sleep(1)
-    L.append([rate2, per0, per1])
-    print(rate2, per0, per1, user_name)
 
-f.close()
+def get_type_for_hosei(Data, file_name):
+    """
+    補正に使用する (ユーザー名, 補正後 rating, rated 参加数) の一覧から、
+    (内部レート (第二段階), 平均順位率, 重み付き平均順位率 (現在未使用)) の一覧を求め、保存する。
+    """
+    L = []
+    for i in range(len(Data)):
+        user_name, rate4, times = Data[i][0], Data[i][1], Data[i][2]
+        rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), int(times))
+        per0, per1 = get_type(user_name)
+        time.sleep(1)
+        L.append([rate2, per0, per1])
 
-N = np.zeros((len(L), 3))
-for i in range(len(L)):
-    for j in range(3):
-        N[i][j] = L[i][j]
+    N = np.zeros((len(L), 3))
+    for i in range(len(L)):
+        for j in range(3):
+            N[i][j] = L[i][j]
 
-np.save("analysis_1995/users_5n_and_top_20220829.npy", N)
+    np.save(f"analysis_1995/{file_name}.npy", N)
