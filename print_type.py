@@ -62,7 +62,7 @@ class Calc:
         N = np.load(f"analysis_1995/{hosei_file_name}.npy").T
         a = np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE)
         a = np.poly1d(a)
-        b = np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE)
+        b = np.polyfit(N[0], N[2], DEGREE_OF_HOSEI_CURVE)
         b = np.poly1d(b)
 
         per0, per1, n_contest, rate4 = self.get_rank_rate(self, user_name)
