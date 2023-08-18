@@ -5,7 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-from const import DEGREE_OF_HOSEI_CURVE
+from const import DEGREE_OF_HOSEI_CURVE, HOSEICHI_FILE_PATH
 
 matplotlib.use("Agg")
 
@@ -16,7 +16,7 @@ def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
     集計対象のコンテスト回数 0 の場合は、ユーザーの結果以外をプロットした図を返す。
     """
 
-    N = np.load("analysis_1995/users_5n_and_top_20220829.npy").T
+    N = np.load(HOSEICHI_FILE_PATH).T
 
     x = N[0]
     y = N[1]
