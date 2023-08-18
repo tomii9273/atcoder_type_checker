@@ -31,7 +31,7 @@ class Calc:
         sum_per = 0
         per_w = 0
         sum_w = 0
-        n_contest = 0
+        n_contest_for_calc = 0
         for i in range(len(js)):
             rated = js[i]["IsRated"]
             contest_name = js[i]["ContestScreenName"][:6]
@@ -45,27 +45,27 @@ class Calc:
                     ind += 1
                 score = K[ind] if ind < len(K) else 0
                 if score != 0 and V[ind][1] != V[ind][0]:
-                    n_contest += 1
+                    n_contest_for_calc += 1
                     per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
                     per_w += rank - V[ind][0]
                     sum_w += V[ind][1] - V[ind][0]
                     sum_per += per
                     # print(contest_name, rank, score, per)
-        if n_contest == 0:
+        if n_contest_for_calc == 0:
             return (0, 0, 0, 0)
         rate4 = js[-1]["NewRating"]
-        mean_rank_rate = sum_per / n_contest
+        mean_rank_rate = sum_per / n_contest_for_calc
         weighted_mean_rank_rate = per_w / sum_w
-        return (mean_rank_rate, weighted_mean_rank_rate, n_contest, rate4)
+        return (mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, rate4)
 
     def get_score(self, user_name, hosei_file_name):
         N = np.load(f"analysis_1995/{hosei_file_name}.npy").T
         get_hoseichi = np.poly1d(np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE))
         get_weighted_hoseichi = np.poly1d(np.polyfit(N[0], N[2], DEGREE_OF_HOSEI_CURVE))
 
-        mean_rank_rate, weighted_mean_rank_rate, n_contest, rate4 = self.get_rank_rate(self, user_name)
+        mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, rate4 = self.get_rank_rate(self, user_name)
 
-        rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), n_contest)
+        rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), n_contest_for_calc)
         # print(rate4, rate2, cnt, times)
 
         hoseichi = get_hoseichi(rate2)
@@ -73,4 +73,4 @@ class Calc:
         # weighted_hosei_mean_rank_rate = weighted_mean_rank_rate - get_weighted_hoseichi(rate2)
 
         # return (per0, per1, per0s, per1s)
-        return hosei_mean_rank_rate, rate2, n_contest, mean_rank_rate, hoseichi
+        return hosei_mean_rank_rate, rate2, n_contest_for_calc, mean_rank_rate, hoseichi
