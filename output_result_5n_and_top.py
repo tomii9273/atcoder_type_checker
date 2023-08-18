@@ -1,6 +1,7 @@
 # users_hogehoge.txtの各ユーザーの(補正を取ったrating, 早解き度)を（早解き度はprint_type.pyの要領で）まとめてnumpy配列に出力する。
 # 1995年のみの補正を取っていないrating版は「rate_per_1995_レートの補正をとっていない.npy」として保存。
 
+import os
 import time
 
 import numpy as np
@@ -13,7 +14,12 @@ def get_type_for_hosei(Data, file_name):
     """
     補正に使用する (ユーザー名, 補正後 rating, rated 参加数) の一覧から、
     (内部レート (第二段階), 平均順位率, 重み付き平均順位率 (現在未使用)) の一覧を求め、保存する。
+    上書きはしない。
     """
+    if not file_name.endswith(".npy"):
+        file_name += ".npy"
+    file_path = f"analysis_1995/{file_name}"
+
     calc = Calc()
     L = []
     for i in range(len(Data)):
@@ -28,4 +34,6 @@ def get_type_for_hosei(Data, file_name):
         for j in range(3):
             N[i][j] = L[i][j]
 
-    np.save(f"analysis_1995/{file_name}.npy", N)
+    if os.path.isfile(file_path):
+        file_path = file_path.rstrip(".npy") + "_1" + ".npy"
+    np.save(file_path, N)
