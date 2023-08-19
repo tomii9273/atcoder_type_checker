@@ -2,10 +2,10 @@ import time
 import urllib.request
 
 
-def get_users_for_hosei():
+def get_users_for_hosei() -> list:
     """
-    早解き度とレートの相関を調べるために、(5の倍数の西暦年生まれ or 補正後rating2400(橙)以上) かつ30回以上のアクティブ参加者の
-    (ユーザー名, 補正後rating, rated参加数)の一覧を得る。
+    早解き度とレートの相関を調べるために「(5 の倍数の西暦年生まれ or 補正後 rating 2400 (橙) 以上) かつ参加回数 30 回以上のアクティブユーザー」の
+    (ユーザー名, 補正後 rating, rated 参加数) の一覧を得る。
     """
     user_head = '<a href="/users/'
     rate_head = "<td><b>"
