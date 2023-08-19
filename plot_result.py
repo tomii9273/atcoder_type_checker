@@ -12,8 +12,8 @@ matplotlib.use("Agg")
 
 def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
     """
-    補正値などとともに、1 ユーザーの結果をプロットした図を返す。
-    集計対象のコンテスト回数 0 の場合は、ユーザーの結果以外をプロットした図を返す。
+    補正値などとともに、1 ユーザーの結果をプロットした図 (を表す文字列) を返す。
+    集計対象のコンテスト回数 0 の場合は、ユーザーの結果以外をプロットしたものを返す。
     """
 
     N = np.load(HOSEICHI_FILE_PATH).T
