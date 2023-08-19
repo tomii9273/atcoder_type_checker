@@ -69,7 +69,7 @@ class Calc:
         get_weighted_hoseichi = np.poly1d(np.polyfit(N[0], N[2], DEGREE_OF_HOSEI_CURVE))
 
         mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, n_contest_rated, rate4 = self.get_rank_rate(
-            self, user_name
+            user_name
         )
 
         rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), n_contest_rated)
