@@ -2,10 +2,11 @@ import time
 import urllib.request
 
 
-def get_users_for_hosei() -> list:
+def get_users_for_hosei(debug: bool = False) -> list:
     """
     早解き度とレートの相関を調べるために「(5 の倍数の西暦年生まれ or 補正後 rating 2400 (橙) 以上) かつ参加回数 30 回以上のアクティブユーザー」の
     (ユーザー名, 補正後 rating, rated 参加数) の一覧を得る。
+    (debug = True のときは「1995 年生まれの参加回数 30 回以上のアクティブユーザーのうち、Rating 上位 100 人」のみ)
     """
     user_head = '<a href="/users/'
     rate_head = "<td><b>"
@@ -16,7 +17,8 @@ def get_users_for_hosei() -> list:
     checked_users = set()
 
     # 5の倍数の西暦年生まれのユーザーを集計
-    for year in range(1905, 2025, 5):
+    years = list(range(1905, 2025, 5)) if not debug else [1995]
+    for year in years:
         for page_no in range(1, 1000):
             URL = "https://atcoder.jp/ranking?f.Affiliation=&f.BirthYearLowerBound={0}&f.BirthYearUpperBound={0}&f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&f.RatingLowerBound=0&f.RatingUpperBound=9999&f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={1}".format(
                 year, page_no
@@ -57,7 +59,8 @@ def get_users_for_hosei() -> list:
                     print(user_name, rate, times)
                     Data.append([user_name, rate, times])
                     checked_users.add(user_name)
-
+            if debug:
+                return Data
             if not got:
                 break
 
