@@ -32,11 +32,14 @@ class Calc:
         per_w = 0
         sum_w = 0
         n_contest_for_calc = 0
+        n_contest_rated = 0
         for i in range(len(js)):
             rated = js[i]["IsRated"]
             contest_name = js[i]["ContestScreenName"][:6]
             rank = js[i]["Place"]
             # print(contest_name, rank)
+            if rated:
+                n_contest_rated += 1
             if rated and contest_name in self.main_D:
                 V = list(self.main_D[contest_name].values())
                 K = list(self.main_D[contest_name].keys())
@@ -51,21 +54,25 @@ class Calc:
                     sum_w += V[ind][1] - V[ind][0]
                     sum_per += per
                     # print(contest_name, rank, score, per)
-        if n_contest_for_calc == 0:
-            return (0, 0, 0, 0)
+        if n_contest_rated == 0:
+            return (-1, -1, 0, 0, -1)
         rate4 = js[-1]["NewRating"]
+        if n_contest_for_calc == 0:
+            return (-1, -1, n_contest_for_calc, n_contest_rated, rate4)
         mean_rank_rate = sum_per / n_contest_for_calc
         weighted_mean_rank_rate = per_w / sum_w
-        return (mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, rate4)
+        return (mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, n_contest_rated, rate4)
 
     def get_score(self, user_name, hosei_file_name):
         N = np.load(f"analysis_1995/{hosei_file_name}.npy").T
         get_hoseichi = np.poly1d(np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE))
         get_weighted_hoseichi = np.poly1d(np.polyfit(N[0], N[2], DEGREE_OF_HOSEI_CURVE))
 
-        mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, rate4 = self.get_rank_rate(self, user_name)
+        mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, n_contest_rated, rate4 = self.get_rank_rate(
+            self, user_name
+        )
 
-        rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), n_contest_for_calc)
+        rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), n_contest_rated)
         # print(rate4, rate2, cnt, times)
 
         hoseichi = get_hoseichi(rate2)

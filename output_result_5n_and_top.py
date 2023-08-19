@@ -24,10 +24,22 @@ def get_type_for_hosei(Data, file_name):
     L = []
     for i in range(len(Data)):
         user_name, rate4, n_contest_rated = Data[i][0], Data[i][1], Data[i][2]
+        if n_contest_rated == 0:
+            continue
         rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), int(n_contest_rated))
-        mean_rank_rate, weighted_mean_rank_rate, _, _ = calc.get_rank_rate(user_name)
+        (
+            mean_rank_rate,
+            weighted_mean_rank_rate,
+            n_contest_for_calc,
+            n_contest_rated_got,
+            rate4_got,
+        ) = calc.get_rank_rate(user_name)
+        assert n_contest_rated == n_contest_rated_got
+        assert n_contest_for_calc <= n_contest_rated
+        assert rate4 == rate4_got
         time.sleep(1)
-        L.append([rate2, mean_rank_rate, weighted_mean_rank_rate])
+        if n_contest_for_calc > 0:
+            L.append([rate2, mean_rank_rate, weighted_mean_rank_rate])
 
     N = np.zeros((len(L), 3))
     for i in range(len(L)):
