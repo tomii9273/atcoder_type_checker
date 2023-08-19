@@ -69,7 +69,7 @@ class Calc:
         """AtCoder ID と補正値ファイルから、平均順位率とスコア (の元となる補正済み平均順位率) を取得。"""
         N = np.load(f"analysis_1995/{hosei_file_name}.npy").T
         get_hoseichi = np.poly1d(np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE))
-        get_weighted_hoseichi = np.poly1d(np.polyfit(N[0], N[2], DEGREE_OF_HOSEI_CURVE))
+        # get_weighted_hoseichi = np.poly1d(np.polyfit(N[0], N[2], DEGREE_OF_HOSEI_CURVE))
 
         mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, n_contest_rated, rate4 = self.get_rank_rate(
             user_name
