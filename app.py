@@ -45,7 +45,7 @@ def post():
     name = "".join(re.findall("[a-zA-Z0-9_]+", raw_name))
     calc = Calc()
     hosei_mean_rank_rate, rate2, n_contest_for_calc, mean_rank_rate, hoseichi = calc.get_score(
-        user_name=name, hosei_file_name=HOSEICHI_FILE_PATH
+        user_name=name, hoseichi_file_path=HOSEICHI_FILE_PATH
     )
     if n_contest_for_calc == 0:
         mes_main = "{} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。".format(name)
