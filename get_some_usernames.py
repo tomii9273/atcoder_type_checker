@@ -56,7 +56,7 @@ def get_users_for_hosei(debug: bool = False) -> list:
                         ind += 1
                     times = int(times)
 
-                    print(user_name, rate, times)
+                    # print(user_name, rate, times)
                     Data.append([user_name, rate, times])
                     checked_users.add(user_name)
             if debug:
@@ -101,7 +101,7 @@ def get_users_for_hosei(debug: bool = False) -> list:
                 times = int(times)
 
                 if user_name not in checked_users:
-                    print(user_name, rate, times)
+                    # print(user_name, rate, times)
                     Data.append([user_name, rate, times])
                     checked_users.add(user_name)
 
