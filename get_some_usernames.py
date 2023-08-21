@@ -28,10 +28,8 @@ def get_users_for_hosei(debug: bool = False) -> list:
             )
             with urllib.request.urlopen(URL) as res:
                 html = res.read().decode("utf-8")
-            # print(html)
             time.sleep(1)
             html = list(html.split("\n"))
-            # print(len(html))
             got = False
             for i in range(len(html)):
                 line = html[i]
@@ -59,7 +57,6 @@ def get_users_for_hosei(debug: bool = False) -> list:
                         ind += 1
                     times = int(times)
 
-                    # print(user_name, rate, times)
                     Data.append([user_name, rate, times])
                     checked_users.add(user_name)
             if debug:
@@ -76,10 +73,8 @@ def get_users_for_hosei(debug: bool = False) -> list:
         URL = f"https://atcoder.jp/ranking?contestType=algo&f.Affiliation=&f.BirthYearLowerBound=0&f.BirthYearUpperBound=9999&f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&f.RatingLowerBound=2400&f.RatingUpperBound=9999&f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={page_no}"
         with urllib.request.urlopen(URL) as res:
             html = res.read().decode("utf-8")
-        # print(html)
         time.sleep(1)
         html = list(html.split("\n"))
-        # print(len(html))
         got = False
         for i in range(len(html)):
             line = html[i]
@@ -108,7 +103,6 @@ def get_users_for_hosei(debug: bool = False) -> list:
                 times = int(times)
 
                 if user_name not in checked_users:
-                    # print(user_name, rate, times)
                     Data.append([user_name, rate, times])
                     checked_users.add(user_name)
 
