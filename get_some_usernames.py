@@ -16,6 +16,9 @@ def get_users_for_hosei(debug: bool = False) -> list:
     got = False  # これがFalseのまま＝そのページにユーザーはいないので、打ち切って次の年を調べる
     checked_users = set()
 
+    print("get_users_for_hosei start")
+    print("19x5-20x5 year start")
+
     # 5の倍数の西暦年生まれのユーザーを集計
     years = list(range(1905, 2025, 5)) if not debug else [1995]
     for year in years:
@@ -60,9 +63,13 @@ def get_users_for_hosei(debug: bool = False) -> list:
                     Data.append([user_name, rate, times])
                     checked_users.add(user_name)
             if debug:
+                print("debug end")
                 return Data
             if not got:
                 break
+
+    print("19x5-20x5 year end")
+    print("2400- rating start")
 
     # 補正後rating2400(橙)以上のユーザーを集計 (既に上記で集計したユーザーは除外)
     for page_no in range(1, 1000):
@@ -107,4 +114,5 @@ def get_users_for_hosei(debug: bool = False) -> list:
 
         if not got:
             break
+        print("2400- rating end")
     return Data

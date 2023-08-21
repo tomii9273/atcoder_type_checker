@@ -22,7 +22,11 @@ def get_type_for_hosei(Data: list, file_name: str) -> None:
 
     calc = Calc()
     L = []
+    print("get_type_for_hosei start")
+    print(f"n_user: {len(Data)}")
     for i in range(len(Data)):
+        if i % 100 == 0:
+            print(f"{i} start")
         user_name, rate4, n_contest_rated = Data[i][0], Data[i][1], Data[i][2]
         if n_contest_rated == 0:
             continue
@@ -49,3 +53,4 @@ def get_type_for_hosei(Data: list, file_name: str) -> None:
     if os.path.isfile(file_path):
         file_path = file_path.rstrip(".npy") + "_1" + ".npy"
     np.save(file_path, N)
+    print("get_type_for_hosei end")
