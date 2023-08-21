@@ -12,6 +12,8 @@ from utils import rate_3_to_2, rate_4_to_3
 
 
 class Calc:
+    """平均順位率・スコア・補正値などの取得を行うクラス"""
+
     def __init__(self) -> None:
         """順位データを読み込む。"""
         f = open("points/points.txt", "r")

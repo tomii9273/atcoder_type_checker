@@ -5,6 +5,10 @@ from output_result_5n_and_top import get_type_for_hosei
 
 
 def make_new_hoseichi(file_name: str, debug: bool) -> None:
+    """
+    新しい補正値データを作成し、{file_name}.npy として保存する。
+    debug = True のときは少人数で行う。
+    """
     data = get_users_for_hosei(debug)
     get_type_for_hosei(data, file_name)
 
