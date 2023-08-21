@@ -1,6 +1,3 @@
-# users_hogehoge.txtの各ユーザーの(補正を取ったrating, 早解き度)を（早解き度はprint_type.pyの要領で）まとめてnumpy配列に出力する。
-# 1995年のみの補正を取っていないrating版は「rate_per_1995_レートの補正をとっていない.npy」として保存。
-
 import os
 import time
 
