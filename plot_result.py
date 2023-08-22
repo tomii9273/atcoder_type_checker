@@ -5,18 +5,18 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-from const import DEGREE_OF_HOSEI_CURVE
+from const import DEGREE_OF_HOSEI_CURVE, HOSEICHI_FILE_PATH
 
 matplotlib.use("Agg")
 
 
 def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
     """
-    補正値などとともに、1 ユーザーの結果をプロットした図を返す。
-    集計対象のコンテスト回数 0 の場合は、ユーザーの結果以外をプロットした図を返す。
+    補正値などとともに、1 ユーザーの結果をプロットした図 (を表す文字列) を返す。
+    集計対象のコンテスト回数 0 の場合は、ユーザーの結果以外をプロットしたものを返す。
     """
 
-    N = np.load("analysis_1995/users_5n_and_top_20220829.npy").T
+    N = np.load(HOSEICHI_FILE_PATH).T
 
     x = N[0]
     y = N[1]
@@ -32,7 +32,7 @@ def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
 
     plt.plot(xp, p2(xp), "-", color="k", label="内部レートによる補正値 (スコア 0 ライン)", zorder=2)
     plt.plot(xp, p2(xp) + 0.1, "--", color="k", label="スコア ±10 ライン", zorder=2)
-    plt.plot(x, y, ".", color="#1f77b4", label="補正値算出に使用したユーザー (1878 人)", zorder=1)
+    plt.plot(x, y, ".", color="#1f77b4", label=f"補正値算出に使用したユーザー ({len(x)} 人)", zorder=1)
     plt.plot(xp, p2(xp) - 0.1, "--", color="k", zorder=1)
 
     cols = [
