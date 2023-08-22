@@ -32,7 +32,7 @@ def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
 
     plt.plot(xp, p2(xp), "-", color="k", label="内部レートによる補正値 (スコア 0 ライン)", zorder=2)
     plt.plot(xp, p2(xp) + 0.1, "--", color="k", label="スコア ±10 ライン", zorder=2)
-    plt.plot(x, y, ".", color="#1f77b4", label="補正値算出に使用したユーザー (1878 人)", zorder=1)
+    plt.plot(x, y, ".", color="#1f77b4", label=f"補正値算出に使用したユーザー ({len(x)} 人)", zorder=1)
     plt.plot(xp, p2(xp) - 0.1, "--", color="k", zorder=1)
 
     cols = [
