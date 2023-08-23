@@ -10,16 +10,20 @@ from const import DEGREE_OF_HOSEI_CURVE, HOSEICHI_FILE_PATH
 matplotlib.use("Agg")
 
 
-def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
+def plot_result(name: str, rate2: float, first_score: float, times: int, weighted: bool) -> str:
     """
     補正値などとともに、1 ユーザーの結果をプロットした図 (を表す文字列) を返す。
     集計対象のコンテスト回数 0 の場合は、ユーザーの結果以外をプロットしたものを返す。
+    weighted: 重みづけした補正値 (としての平均順位率) を使用するか。
     """
 
     N = np.load(HOSEICHI_FILE_PATH).T
 
     x = N[0]
-    y = N[1]
+    if weighted:
+        y = N[2]
+    else:
+        y = N[1]
 
     fig = plt.figure(figsize=(10, 5))
 

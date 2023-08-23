@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-from const import HOSEICHI_FILE_PATH
+from const import HOSEICHI_FILE_PATH, USE_WEIGHTED_MEAN_RANK_RATE
 from plot_result import plot_result
 from print_type import Calc
 from utils import load_txt_one_line
@@ -45,7 +45,7 @@ def post():
     name = "".join(re.findall("[a-zA-Z0-9_]+", raw_name))
     calc = Calc()
     hosei_mean_rank_rate, rate2, n_contest_for_calc, mean_rank_rate, hoseichi = calc.get_score(
-        user_name=name, hoseichi_file_path=HOSEICHI_FILE_PATH
+        user_name=name, hoseichi_file_path=HOSEICHI_FILE_PATH, weighted=USE_WEIGHTED_MEAN_RANK_RATE
     )
     if n_contest_for_calc == 0:
         mes_main = "{} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。".format(name)
@@ -98,7 +98,13 @@ def post():
         "index.html",
         message=mes,
         message_for_tweet=mes_for_tweet,
-        svgstr=plot_result(name, rate2, mean_rank_rate, n_contest_for_calc),
+        svgstr=plot_result(
+            name=name,
+            rate2=rate2,
+            first_score=mean_rank_rate,
+            times=n_contest_for_calc,
+            weighted=USE_WEIGHTED_MEAN_RANK_RATE,
+        ),
         date_site=date_site,
         date_rank_data=date_rank_data,
     )
