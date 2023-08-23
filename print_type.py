@@ -50,8 +50,9 @@ class Calc:
                 if score != 0 and V[ind][1] != V[ind][0]:
                     n_contest_for_calc += 1
                     per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
-                    per_w += rank - V[ind][0]
-                    sum_w += V[ind][1] - V[ind][0]
+                    weight = V[ind][1] - V[ind][0] + 1  # その得点を獲得した人数で重みづけする
+                    per_w += per * weight
+                    sum_w += weight
                     sum_per += per
 
         if n_contest_rated == 0:
