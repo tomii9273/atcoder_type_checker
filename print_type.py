@@ -21,7 +21,7 @@ class Calc:
         self.main_D = main_D
 
     def get_rank_rate(self, user_name: str) -> tuple:
-        """AtCoder ID から平均順位率を取得。補正値算出用。"""
+        """AtCoder ID から平均順位率 (その得点を獲得した人数で重みづけしたもの・していないものの両方) を取得。補正値算出用。"""
         url = "https://atcoder.jp/users/{}/history/json".format(user_name)
 
         with urllib.request.urlopen(url) as res:
@@ -50,8 +50,9 @@ class Calc:
                 if score != 0 and V[ind][1] != V[ind][0]:
                     n_contest_for_calc += 1
                     per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
-                    per_w += rank - V[ind][0]
-                    sum_w += V[ind][1] - V[ind][0]
+                    weight = V[ind][1] - V[ind][0] + 1  # その得点を獲得した人数で重みづけする
+                    per_w += per * weight
+                    sum_w += weight
                     sum_per += per
 
         if n_contest_rated == 0:
@@ -63,11 +64,11 @@ class Calc:
         weighted_mean_rank_rate = per_w / sum_w
         return (mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, n_contest_rated, rate4)
 
-    def get_score(self, user_name: str, hoseichi_file_path: str) -> tuple:
-        """AtCoder ID と補正値ファイルから、平均順位率とスコア (の元となる補正済み平均順位率) を取得。"""
-        N = np.load(hoseichi_file_path).T
-        get_hoseichi = np.poly1d(np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE))
-        # get_weighted_hoseichi = np.poly1d(np.polyfit(N[0], N[2], DEGREE_OF_HOSEI_CURVE))
+    def get_score(self, user_name: str, hoseichi_file_path: str, weighted: bool) -> tuple:
+        """
+        AtCoder ID と補正値ファイルから、平均順位率とスコア (の元となる補正済み平均順位率) を取得。
+        weighted: 重みづけした平均順位率・スコアを取得するか。
+        """
 
         mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, n_contest_rated, rate4 = self.get_rank_rate(
             user_name
@@ -81,8 +82,21 @@ class Calc:
         if n_contest_for_calc == 0:
             return (-1, -1, n_contest_for_calc, n_contest_rated, rate4)
 
-        hoseichi = get_hoseichi(rate2)
-        hosei_mean_rank_rate = mean_rank_rate - hoseichi
-        # weighted_hosei_mean_rank_rate = weighted_mean_rank_rate - get_weighted_hoseichi(rate2)
+        N = np.load(hoseichi_file_path).T
 
-        return (hosei_mean_rank_rate, rate2, n_contest_for_calc, mean_rank_rate, hoseichi)
+        if weighted:
+            get_weighted_hoseichi = np.poly1d(np.polyfit(N[0], N[2], DEGREE_OF_HOSEI_CURVE))
+            weighted_hoseichi = get_weighted_hoseichi(rate2)
+            weighted_hosei_mean_rank_rate = weighted_mean_rank_rate - weighted_hoseichi
+            return (
+                weighted_hosei_mean_rank_rate,
+                rate2,
+                n_contest_for_calc,
+                weighted_mean_rank_rate,
+                weighted_hoseichi,
+            )
+        else:
+            get_hoseichi = np.poly1d(np.polyfit(N[0], N[1], DEGREE_OF_HOSEI_CURVE))
+            hoseichi = get_hoseichi(rate2)
+            hosei_mean_rank_rate = mean_rank_rate - hoseichi
+            return (hosei_mean_rank_rate, rate2, n_contest_for_calc, mean_rank_rate, hoseichi)
