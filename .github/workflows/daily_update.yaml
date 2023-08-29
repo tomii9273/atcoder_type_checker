@@ -27,17 +27,17 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           mkdir raw_standings
-          python get_standing_and_join.py ${{secrets.ATCODER_PASSWORD}}
-          git add points/points.txt
+          python app/get_standing_and_join.py ${{secrets.ATCODER_PASSWORD}}
+          git add app/data/points/points.txt
           if [[ -n $(git diff --name-only --cached) ]]; then
             date_now=$(date +'%Y/%m/%d')
             date_yesterday=$(date +'%Y/%m/%d' --date '1 day ago')
-            rm -f update_dates/date_site.txt
-            rm -f update_dates/date_rank_data.txt
-            echo $date_now >> update_dates/date_site.txt
-            echo $date_yesterday >> update_dates/date_rank_data.txt
-            git add update_dates/date_site.txt
-            git add update_dates/date_rank_data.txt
+            rm -f app/data/update_dates/date_site.txt
+            rm -f app/data/update_dates/date_rank_data.txt
+            echo $date_now >> app/data/update_dates/date_site.txt
+            echo $date_yesterday >> app/data/update_dates/date_rank_data.txt
+            git add app/data/update_dates/date_site.txt
+            git add app/data/update_dates/date_rank_data.txt
             git commit -m "daily update (point data)"
             git pull
             git push origin main
