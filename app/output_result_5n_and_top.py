@@ -2,7 +2,6 @@ import os
 import time
 
 import numpy as np
-
 from print_type import Calc
 from utils import rate_3_to_2, rate_4_to_3
 
@@ -15,7 +14,7 @@ def get_type_for_hosei(Data: list, file_name: str) -> None:
     """
     if not file_name.endswith(".npy"):
         file_name += ".npy"
-    file_path = f"analysis_1995/{file_name}"
+    file_path = f"data/hoseichi/{file_name}"
 
     calc = Calc()
     L = []

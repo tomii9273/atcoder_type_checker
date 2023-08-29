@@ -30,7 +30,7 @@ for line in html:
             contest_names.add(contest_name)
 
 # 既に取得済のコンテストを除外
-f = open("points/points.txt", "r")
+f = open("data/points/points.txt", "r")
 for item in f.readlines():
     key_exist = ast.literal_eval(item).keys()
     assert len(key_exist) == len(set(key_exist))

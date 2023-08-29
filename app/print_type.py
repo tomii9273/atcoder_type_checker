@@ -3,7 +3,6 @@ import json
 import urllib.request
 
 import numpy as np
-
 from const import DEGREE_OF_HOSEI_CURVE
 from utils import rate_3_to_2, rate_4_to_3
 
@@ -13,7 +12,7 @@ class Calc:
 
     def __init__(self) -> None:
         """順位データを読み込む。"""
-        f = open("points/points.txt", "r")
+        f = open("data/points/points.txt", "r")
         for item in f.readlines():
             main_D = ast.literal_eval(item)
             break
