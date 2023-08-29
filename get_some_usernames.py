@@ -108,5 +108,5 @@ def get_users_for_hosei(debug: bool = False) -> list:
 
         if not got:
             break
-        print("2400- rating end")
+    print("2400- rating end")
     return Data
