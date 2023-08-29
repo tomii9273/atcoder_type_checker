@@ -1,7 +1,6 @@
 # 各コンテストの順位表jsonを取得し（ログイン（認証）する必要あり）、
 # 得た順位表jsonから、各点数の順位範囲を求め、元のファイル（points/points.txt）
 # の辞書に追加して同名で保存する。
-# get_standing.pyとanalysis_standing.pyをつなげたような構造。
 
 import ast
 import codecs
