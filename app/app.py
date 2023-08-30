@@ -15,6 +15,7 @@ limiter = Limiter(get_remote_address, app=app, default_limits=["50 per minute"])
 
 date_site = load_txt_one_line("data/update_dates/date_site.txt")
 date_rank_data = load_txt_one_line("data/update_dates/date_rank_data.txt")
+date_hoseichi = load_txt_one_line("data/update_dates/date_hoseichi.txt")
 
 
 def add_p(s: str) -> str:
@@ -34,6 +35,7 @@ def get():
         message=add_p(add_b(mes_get)),
         date_site=date_site,
         date_rank_data=date_rank_data,
+        date_hoseichi=date_hoseichi,
     )
 
 
@@ -106,6 +108,7 @@ def post():
         ),
         date_site=date_site,
         date_rank_data=date_rank_data,
+        date_hoseichi=date_hoseichi,
     )
 
 
