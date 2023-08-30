@@ -2,8 +2,9 @@ import os
 import time
 
 import numpy as np
-from print_type import Calc
-from utils import rate_3_to_2, rate_4_to_3
+
+from .print_type import Calc
+from .utils import rate_3_to_2, rate_4_to_3
 
 
 def get_type_for_hosei(Data: list, file_name: str) -> None:

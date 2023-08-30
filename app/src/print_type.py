@@ -3,8 +3,9 @@ import json
 import urllib.request
 
 import numpy as np
-from const import DEGREE_OF_HOSEI_CURVE
-from utils import rate_3_to_2, rate_4_to_3
+
+from .const import DEGREE_OF_HOSEI_CURVE
+from .utils import rate_3_to_2, rate_4_to_3
 
 
 class Calc:
