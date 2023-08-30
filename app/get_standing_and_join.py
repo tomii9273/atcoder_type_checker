@@ -71,13 +71,13 @@ for contest_name in contest_names:
     # print(res.text)
 
     time.sleep(1)
-    f = codecs.open("raw_standings/{}.txt".format(contest_name), "w", "utf-8")
+    f = codecs.open("data/raw_standings/{}.txt".format(contest_name), "w", "utf-8")
     f.write(res.text)
     f.close()
 
 
 # 元のファイル（points/points.txt）をロード
-f = open("points/points.txt", "r")
+f = open("data/points/points.txt", "r")
 for item in f.readlines():
     main_D = ast.literal_eval(item)
     break
@@ -88,7 +88,7 @@ f.close()
 for contest_name in contest_names:
     print("load", contest_name)
     D = {}
-    f = codecs.open("raw_standings/{}.txt".format(contest_name), "r", "utf-8")
+    f = codecs.open("data/raw_standings/{}.txt".format(contest_name), "r", "utf-8")
     for item in f.readlines():
         SD = json.loads(item)["StandingsData"]
     for i in range(len(SD)):
@@ -106,6 +106,6 @@ for contest_name in contest_names:
 
 
 # 保存
-f = open("points/points.txt", "w")
+f = open("data/points/points.txt", "w")
 f.write(str(main_D))
 f.close()
