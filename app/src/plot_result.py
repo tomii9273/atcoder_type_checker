@@ -62,6 +62,8 @@ def plot_result(name: str, rate2: float, first_score: float, times: int, weighte
     plt.xlim(rate_min, rate_max)
     plt.xlabel("内部レート")
     plt.ylabel("平均順位率")
+    plt.grid(axis="y")
+    plt.rcParams["axes.axisbelow"] = True
     plt.legend()
 
     # StringIOを用いて画像を文字列として保存
