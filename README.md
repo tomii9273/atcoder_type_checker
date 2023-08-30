@@ -11,6 +11,14 @@ https://atcoder-type-checker.herokuapp.com/
 - AtCoder: https://atcoder.jp
 - 「#AtCoder_Type_Checker」での最新ツイート: https://twitter.com/search?q=%23AtCoder_Type_Checker%20&src=recent_search_click&f=live
 
+## スクリプト一覧
+
+`app` ディレクトリに移動してから実行する。
+
+- 現在のコードでアプリを表示する (デバッグ用): `python app.py`
+- 補正値の更新: `python update_hoseichi.py -n name`
+- 順位データの更新: `python get_standing_and_join.py`
+
 ## PR について (暫定・自分用)
 
 - CI で「コミット時の日付 = サイト最終更新の日付 (`date_site.txt` のもの)」を確認している。そうでない場合、PR に「/date」とコメントすると GitHub Actions による日付更新コミットが行われる。

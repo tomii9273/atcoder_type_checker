@@ -15,7 +15,7 @@ jobs:
       - name: Check Date
         run: |
           date_now=$(date +'%Y/%m/%d')
-          date_txt=$(echo $(cat update_dates/date_site.txt) | cut -c 1-10)
+          date_txt=$(echo $(cat app/data/update_dates/date_site.txt) | cut -c 1-10)
           echo $date_now
           echo $date_txt
           if [[ $date_now != $date_txt ]]; then exit 1; fi

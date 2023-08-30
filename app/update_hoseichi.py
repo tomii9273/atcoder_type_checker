@@ -1,7 +1,7 @@
 import argparse
 
-from get_some_usernames import get_users_for_hosei
-from output_result_5n_and_top import get_type_for_hosei
+from src.get_some_usernames import get_users_for_hosei
+from src.output_result_5n_and_top import get_type_for_hosei
 
 
 def make_new_hoseichi(file_name: str, debug: bool) -> None:

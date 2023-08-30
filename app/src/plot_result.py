@@ -5,7 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-from const import DEGREE_OF_HOSEI_CURVE, HOSEICHI_FILE_PATH
+from .const import DEGREE_OF_HOSEI_CURVE, HOSEICHI_FILE_PATH
 
 matplotlib.use("Agg")
 
