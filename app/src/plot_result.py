@@ -56,12 +56,15 @@ def plot_result(name: str, rate2: float, first_score: float, times: int, weighte
     rates = [rate_min] + [i for i in range(400, 2801, 400)] + [rate_max]
 
     for i, col in enumerate(cols):
-        plt.axvspan(rates[i], rates[i + 1], alpha=0.3, color=col, zorder=0)
+        plt.axvspan(rates[i] + 1, rates[i + 1] - 1, alpha=0.3, color=col, zorder=0)
 
+    plt.xticks(np.arange((rate_min - 600) // 400 * 400, (rate_max + 600) // 400 * 400, 400))  # 400 の倍数
     plt.ylim(0, 1)
     plt.xlim(rate_min, rate_max)
     plt.xlabel("内部レート")
     plt.ylabel("平均順位率")
+    plt.grid(c="#F0F0F0")
+    plt.rcParams["axes.axisbelow"] = True
     plt.legend()
 
     # StringIOを用いて画像を文字列として保存
