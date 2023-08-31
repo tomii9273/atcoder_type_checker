@@ -51,7 +51,7 @@ def plot_result(name: str, rate2: float, first_score: float, times: int, weighte
     ]
 
     rate_min = min(min(x), rate2) - 50
-    rate_max = max(4000, max(max(x), rate2) + 50)
+    rate_max = max(max(x), rate2) + 50
 
     rates = [rate_min] + [i for i in range(400, 2801, 400)] + [rate_max]
 
