@@ -63,7 +63,7 @@ def plot_result(name: str, rate2: float, first_score: float, times: int, weighte
     plt.xlim(rate_min, rate_max)
     plt.xlabel("内部レート")
     plt.ylabel("平均順位率")
-    plt.grid()
+    plt.grid(c="#F0F0F0")
     plt.rcParams["axes.axisbelow"] = True
     plt.legend()
 
