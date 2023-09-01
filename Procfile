@@ -1,1 +1,1 @@
-web: gunicorn app.app:app --log-file=-
+web: ./start.sh
