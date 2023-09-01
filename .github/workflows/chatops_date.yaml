@@ -9,6 +9,7 @@ jobs:
     name: "Update Date"
     if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/date') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: get upstream branch
         id: upstreambranch
