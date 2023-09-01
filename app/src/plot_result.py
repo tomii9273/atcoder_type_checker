@@ -34,9 +34,10 @@ def plot_result(name: str, rate2: float, first_score: float, times: int, weighte
     if times > 0:
         plt.scatter([rate2], [first_score], marker="o", color="red", s=50, zorder=3, label=f"{name} さんの位置")
 
+    plt.rcParams["axes.axisbelow"] = True
     plt.plot(xp, p2(xp), "-", color="k", label="内部レートによる補正値 (スコア 0 ライン)", zorder=2)
     plt.plot(xp, p2(xp) + 0.1, "--", color="k", label="スコア ±10 ライン", zorder=2)
-    plt.plot(x, y, ".", color="#1f77b4", label=f"補正値算出に使用したユーザー ({len(x)} 人)", zorder=1)
+    plt.plot(x, y, ".", color="#1f77b4", label=f"補正値算出に使用したユーザー ({len(x):,} 人)", zorder=1)
     plt.plot(xp, p2(xp) - 0.1, "--", color="k", zorder=1)
 
     cols = [
@@ -64,8 +65,7 @@ def plot_result(name: str, rate2: float, first_score: float, times: int, weighte
     plt.xlabel("内部レート")
     plt.ylabel("平均順位率")
     plt.grid(c="#F0F0F0")
-    plt.rcParams["axes.axisbelow"] = True
-    plt.legend()
+    plt.legend(loc="upper right")
 
     # StringIOを用いて画像を文字列として保存
 
