@@ -1,0 +1,46 @@
+name: monthly_hoseichi_update
+on:
+  schedule:
+    # 日本時間で毎月 1 日の 16 時に実行
+    - cron: '0 7 1 * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests==2.31.0
+          pip install numpy==1.25.2
+
+      - name: Run script and push
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          cd app
+          file_name=monthly_5ntop_$(date +'%Y%m%d').npy
+          python update_hoseichi.py -n ${file_name}
+          git add data/hoseichi/${file_name}
+          sed -i "s/\(HOSEICHI_FILE_PATH = \)".*"/\1\"data\/hoseichi\/$file_name\"/g" src/const.py
+          git add src/const.py
+          date_now=$(date +'%Y/%m/%d')
+          rm -f data/update_dates/date_site.txt
+          rm -f data/update_dates/date_hoseichi.txt
+          echo $date_now >> data/update_dates/date_site.txt
+          echo $date_now >> data/update_dates/date_hoseichi.txt
+          git add data/update_dates/date_site.txt
+          git add data/update_dates/date_hoseichi.txt
+          git commit -m "monthly update (hoseichi data)"
+          git pull
+          git push origin main
+        env:
+          TZ: 'Asia/Tokyo'

@@ -1,5 +1,5 @@
 __pycache__
 .ipynb_checkpoints
 /ignore
-/raw_standings
+app/data/raw_standings
 .venv

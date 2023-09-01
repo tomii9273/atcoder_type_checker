@@ -5,32 +5,39 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
+from .const import DEGREE_OF_HOSEI_CURVE, HOSEICHI_FILE_PATH
+
 matplotlib.use("Agg")
 
 
-def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
+def plot_result(name: str, rate2: float, first_score: float, times: int, weighted: bool) -> str:
     """
-    補正値などとともに、1 ユーザーの結果をプロットした図を返す。
-    集計対象のコンテスト回数 0 の場合は、ユーザーの結果以外をプロットした図を返す。
+    補正値などとともに、1 ユーザーの結果をプロットした図 (を表す文字列) を返す。
+    集計対象のコンテスト回数 0 の場合は、ユーザーの結果以外をプロットしたものを返す。
+    weighted: 重みづけした補正値 (としての平均順位率) を使用するか。
     """
 
-    N = np.load("analysis_1995/users_5n_and_top_20220829.npy").T
+    N = np.load(HOSEICHI_FILE_PATH).T
 
     x = N[0]
-    y = N[1]
+    if weighted:
+        y = N[2]
+    else:
+        y = N[1]
 
     fig = plt.figure(figsize=(10, 5))
 
-    p2 = np.poly1d(np.polyfit(x, y, 2))
+    p2 = np.poly1d(np.polyfit(x, y, DEGREE_OF_HOSEI_CURVE))
 
     xp = np.linspace(-500, 4000, 100)
 
     if times > 0:
         plt.scatter([rate2], [first_score], marker="o", color="red", s=50, zorder=3, label=f"{name} さんの位置")
 
+    plt.rcParams["axes.axisbelow"] = True
     plt.plot(xp, p2(xp), "-", color="k", label="内部レートによる補正値 (スコア 0 ライン)", zorder=2)
     plt.plot(xp, p2(xp) + 0.1, "--", color="k", label="スコア ±10 ライン", zorder=2)
-    plt.plot(x, y, ".", color="#1f77b4", label="補正値算出に使用したユーザー (1878 人)", zorder=1)
+    plt.plot(x, y, ".", color="#1f77b4", label=f"補正値算出に使用したユーザー ({len(x):,} 人)", zorder=1)
     plt.plot(xp, p2(xp) - 0.1, "--", color="k", zorder=1)
 
     cols = [
@@ -50,13 +57,15 @@ def plot_result(name: str, rate2: float, first_score: float, times: int) -> str:
     rates = [rate_min] + [i for i in range(400, 2801, 400)] + [rate_max]
 
     for i, col in enumerate(cols):
-        plt.axvspan(rates[i], rates[i + 1], alpha=0.3, color=col, zorder=0)
+        plt.axvspan(rates[i] + 1, rates[i + 1] - 1, alpha=0.3, color=col, zorder=0)
 
+    plt.xticks(np.arange((rate_min - 600) // 400 * 400, (rate_max + 600) // 400 * 400, 400))  # 400 の倍数
     plt.ylim(0, 1)
     plt.xlim(rate_min, rate_max)
     plt.xlabel("内部レート")
     plt.ylabel("平均順位率")
-    plt.legend()
+    plt.grid(c="#F0F0F0")
+    plt.legend(loc="upper right")
 
     # StringIOを用いて画像を文字列として保存
 
