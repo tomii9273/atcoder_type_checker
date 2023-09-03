@@ -28,7 +28,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           cd app
-          mkdir raw_standings
+          mkdir data/raw_standings
           python get_standing_and_join.py ${{secrets.ATCODER_PASSWORD}}
           git add data/points/points.txt
           if [[ -n $(git diff --name-only --cached) ]]; then
