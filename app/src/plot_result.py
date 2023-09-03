@@ -25,20 +25,20 @@ def plot_result(name: str, rate2: float, first_score: float, times: int, weighte
     else:
         y = N[1]
 
-    fig = plt.figure(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(10, 5))
 
     p2 = np.poly1d(np.polyfit(x, y, DEGREE_OF_HOSEI_CURVE))
 
     xp = np.linspace(-500, 4000, 100)
 
     if times > 0:
-        plt.scatter([rate2], [first_score], marker="o", color="red", s=50, zorder=3, label=f"{name} さんの位置")
+        ax.scatter([rate2], [first_score], marker="o", color="red", s=50, zorder=3, label=f"{name} さんの位置")
 
-    plt.rcParams["axes.axisbelow"] = True
-    plt.plot(xp, p2(xp), "-", color="k", label="内部レートによる補正値 (スコア 0 ライン)", zorder=2)
-    plt.plot(xp, p2(xp) + 0.1, "--", color="k", label="スコア ±10 ライン", zorder=2)
-    plt.plot(x, y, ".", color="#1f77b4", label=f"補正値算出に使用したユーザー ({len(x):,} 人)", zorder=1)
-    plt.plot(xp, p2(xp) - 0.1, "--", color="k", zorder=1)
+    ax.set_axisbelow(True)
+    ax.plot(xp, p2(xp), "-", color="k", label="内部レートによる補正値 (スコア 0 ライン)", zorder=2)
+    ax.plot(xp, p2(xp) + 0.1, "--", color="k", label="スコア ±10 ライン", zorder=2)
+    ax.plot(x, y, ".", color="#1f77b4", label=f"補正値算出に使用したユーザー ({len(x):,} 人)", zorder=1)
+    ax.plot(xp, p2(xp) - 0.1, "--", color="k", zorder=1)
 
     cols = [
         "#808080",
@@ -59,13 +59,13 @@ def plot_result(name: str, rate2: float, first_score: float, times: int, weighte
     for i, col in enumerate(cols):
         plt.axvspan(rates[i] + 1, rates[i + 1] - 1, alpha=0.3, color=col, zorder=0)
 
-    plt.xticks(np.arange((rate_min - 600) // 400 * 400, (rate_max + 600) // 400 * 400, 400))  # 400 の倍数
-    plt.ylim(0, 1)
-    plt.xlim(rate_min, rate_max)
-    plt.xlabel("内部レート")
-    plt.ylabel("平均順位率")
-    plt.grid(c="#F0F0F0")
-    plt.legend(loc="upper right")
+    ax.set_xticks(np.arange((rate_min - 600) // 400 * 400, (rate_max + 600) // 400 * 400, 400))  # 400 の倍数
+    ax.set_ylim(0, 1)
+    ax.set_xlim(rate_min, rate_max)
+    ax.set_xlabel("内部レート")
+    ax.set_ylabel("平均順位率")
+    ax.grid(c="#F0F0F0")
+    ax.legend(loc="upper right")
 
     # StringIOを用いて画像を文字列として保存
 
