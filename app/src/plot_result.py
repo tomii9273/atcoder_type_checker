@@ -41,14 +41,14 @@ def plot_result(name: str, rate2: float, mean_rank_rate: float, n_contest: int, 
     ax.plot(x_line, get_hoseichi(x_line) - 0.1, "--", color="k", zorder=1)
 
     cols = [
-        "#808080",
-        "#804000",
-        "#008000",
-        "#00C0C0",
-        "#0000FF",
-        "#C0C000",
-        "#FF8000",
-        "#FF0000",
+        "#808080",  # 灰
+        "#804000",  # 茶
+        "#008000",  # 緑
+        "#00C0C0",  # 水
+        "#0000FF",  # 青
+        "#C0C000",  # 黄
+        "#FF8000",  # 橙
+        "#FF0000",  # 赤
     ]
 
     rate_min = min(min(x), rate2) - 50
@@ -67,7 +67,7 @@ def plot_result(name: str, rate2: float, mean_rank_rate: float, n_contest: int, 
     ax.grid(c="#F0F0F0")
     ax.legend(loc="upper right")
 
-    # StringIOを用いて画像を文字列として保存
+    # StringIO を用いて画像を文字列として保存
 
     strio = StringIO()
     fig.savefig(strio, format="svg")
