@@ -102,8 +102,8 @@ def post():
         svgstr=plot_result(
             name=name,
             rate2=rate2,
-            first_score=mean_rank_rate,
-            times=n_contest_for_calc,
+            mean_rank_rate=mean_rank_rate,
+            n_contest=n_contest_for_calc,
             weighted=USE_WEIGHTED_MEAN_RANK_RATE,
         ),
         date_site=date_site,
