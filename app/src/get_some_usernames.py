@@ -42,7 +42,7 @@ def parse_html_and_update_data(
     return checked_users, data, add_count
 
 
-def get_users_for_hosei(debug: bool = False) -> list:
+def get_users_for_hosei(debug: bool = False) -> list[tuple[str, int, int]]:
     """
     早解き度とレートの相関を調べるために「(5 の倍数の西暦年生まれ or 補正後 rating が 2400 (橙色) 以上) かつ参加回数 30 回以上のアクティブユーザー」の
     (ユーザー名, 補正後 rating, rated 参加数) の一覧を得る。

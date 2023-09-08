@@ -7,7 +7,7 @@ from .print_type import Calc
 from .utils import rate_3_to_2, rate_4_to_3
 
 
-def get_type_for_hosei(data: list, file_name: str) -> None:
+def get_type_for_hosei(data: list[tuple[str, int, int]], file_name: str) -> None:
     """
     補正に使用する (ユーザー名, 補正後 rating, rated 参加数) の一覧から、
     (内部レート (第二段階), 平均順位率, 重み付き平均順位率) の一覧を求め、保存する。

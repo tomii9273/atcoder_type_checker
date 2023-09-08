@@ -20,7 +20,7 @@ class Calc:
         f.close()
         self.main_D = main_D
 
-    def get_rank_rate(self, user_name: str) -> tuple:
+    def get_rank_rate(self, user_name: str) -> tuple[float, float, int, int, int]:
         """AtCoder ID から平均順位率 (その得点を獲得した人数で重みづけしたもの・していないものの両方) を取得。補正値算出用。"""
         url = "https://atcoder.jp/users/{}/history/json".format(user_name)
 
@@ -64,7 +64,9 @@ class Calc:
         weighted_mean_rank_rate = per_w / sum_w
         return (mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, n_contest_rated, rate4)
 
-    def get_score(self, user_name: str, hoseichi_file_path: str, weighted: bool) -> tuple:
+    def get_score(
+        self, user_name: str, hoseichi_file_path: str, weighted: bool
+    ) -> tuple[float, float, int, float, float]:
         """
         AtCoder ID と補正値ファイルから、平均順位率とスコア (の元となる補正済み平均順位率) を取得。
         weighted: 重みづけした平均順位率・スコアを取得するか。
