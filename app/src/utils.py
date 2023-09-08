@@ -1,6 +1,16 @@
 from math import log
 
 
+def add_p(s: str) -> str:
+    """paragraph タグを付ける"""
+    return "<p>" + s + "</p>"
+
+
+def add_b(s: str) -> str:
+    """太字タグを付ける"""
+    return "<b>" + s + "</b>"
+
+
 def load_txt_one_line(path: str) -> str:
     """txt の 1 行目を返す"""
     f = open(path, "r")

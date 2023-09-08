@@ -6,7 +6,7 @@ from flask_limiter.util import get_remote_address
 from src.const import HOSEICHI_FILE_PATH, USE_WEIGHTED_MEAN_RANK_RATE
 from src.plot_result import plot_result
 from src.print_type import Calc
-from src.utils import load_txt_one_line
+from src.utils import add_b, add_p, load_txt_one_line
 
 app = Flask(__name__)
 app.config["RATELIMIT_HEADERS_ENABLED"] = True  # ヘッダーに RateLimit 情報を出力
@@ -16,14 +16,6 @@ limiter = Limiter(get_remote_address, app=app, default_limits=["50 per minute"])
 date_site = load_txt_one_line("data/update_dates/date_site.txt")
 date_rank_data = load_txt_one_line("data/update_dates/date_rank_data.txt")
 date_hoseichi = load_txt_one_line("data/update_dates/date_hoseichi.txt")
-
-
-def add_p(s: str) -> str:
-    return "<p>" + s + "</p>"
-
-
-def add_b(s: str) -> str:
-    return "<b>" + s + "</b>"
 
 
 # get のときの処理
