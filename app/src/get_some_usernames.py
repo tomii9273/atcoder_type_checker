@@ -49,8 +49,8 @@ def get_users_for_hosei(debug: bool = False) -> list:
     (debug = True のときは「1995 年生まれの参加回数 30 回以上のアクティブユーザーのうち、Rating 上位 100 人」のみ)
     """
 
-    data = []
-    checked_users = set()
+    checked_users: set[str] = set()
+    data: list[tuple[str, int, int]] = []
 
     print("get_users_for_hosei start")
     print("19x5-20x5 year start")
