@@ -18,16 +18,16 @@ def get_type_for_hosei(data: list[tuple[str, int, int]], file_name: str) -> None
     file_path = f"data/hoseichi/{file_name}"
 
     calc = Calc()
-    L = []
+    data_save = []
     print("get_type_for_hosei start")
     print(f"n_user: {len(data)}")
     for i in range(len(data)):
         if i % 100 == 0:
             print(f"{i} start")
-        user_name, rate4, n_contest_rated = data[i][0], data[i][1], data[i][2]
+        user_name, rate4, n_contest_rated = data[i]
         if n_contest_rated == 0:
             continue
-        rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), int(n_contest_rated))
+        rate2 = rate_3_to_2(rate_4_to_3(rate4), n_contest_rated)
         (
             mean_rank_rate,
             weighted_mean_rank_rate,
@@ -40,14 +40,9 @@ def get_type_for_hosei(data: list[tuple[str, int, int]], file_name: str) -> None
         assert rate4 == rate4_got
         time.sleep(1)
         if n_contest_for_calc > 0:
-            L.append([rate2, mean_rank_rate, weighted_mean_rank_rate])
-
-    N = np.zeros((len(L), 3))
-    for i in range(len(L)):
-        for j in range(3):
-            N[i][j] = L[i][j]
+            data_save.append([rate2, mean_rank_rate, weighted_mean_rank_rate])
 
     if os.path.isfile(file_path):
         file_path = file_path.rstrip(".npy") + "_1" + ".npy"
-    np.save(file_path, N)
+    np.save(file_path, np.array(data_save))
     print("get_type_for_hosei end")

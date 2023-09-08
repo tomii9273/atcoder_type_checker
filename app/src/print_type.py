@@ -79,7 +79,7 @@ class Calc:
         if n_contest_rated == 0:
             return (-1, -1, 0, -1, -1)
 
-        rate2 = rate_3_to_2(rate_4_to_3(int(rate4)), n_contest_rated)
+        rate2 = rate_3_to_2(rate_4_to_3(rate4), n_contest_rated)
 
         if n_contest_for_calc == 0:
             return (-1, -1, n_contest_for_calc, n_contest_rated, rate4)
