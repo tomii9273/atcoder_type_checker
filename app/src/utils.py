@@ -31,11 +31,11 @@ def rate_4_to_3(rate4: int) -> float:
     return rate
 
 
-def rate_3_to_2(rate3: float, times: int) -> float:
+def rate_3_to_2(rate3: float, n_contest_rated: int) -> float:
     """
     https://qiita.com/anqooqie/items/92005e337a0d2569bdbd の「レート（第三段階）」を「レート（第二段階）」に変換。
     参加回数が少ないことによる補正を外す。
-    times: 参加回数
+    n_contest_rated: Rated 参加回数
     """
-    assert times >= 1
-    return rate3 + (((1 - 0.81**times) ** 0.5) / (1 - 0.9**times) - 1) * 1200 / (19**0.5 - 1)
+    assert n_contest_rated >= 1
+    return rate3 + (((1 - 0.81**n_contest_rated) ** 0.5) / (1 - 0.9**n_contest_rated) - 1) * 1200 / (19**0.5 - 1)
