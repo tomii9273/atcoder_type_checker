@@ -13,9 +13,9 @@ app.config["RATELIMIT_HEADERS_ENABLED"] = True  # ヘッダーに RateLimit 情�
 limiter = Limiter(get_remote_address, app=app, default_limits=["50 per minute"])
 
 
-date_site = load_txt_one_line("data/update_dates/date_site.txt")
-date_rank_data = load_txt_one_line("data/update_dates/date_rank_data.txt")
-date_hoseichi = load_txt_one_line("data/update_dates/date_hoseichi.txt")
+DATE_SITE = load_txt_one_line("data/update_dates/date_site.txt")
+DATE_RANK_DATA = load_txt_one_line("data/update_dates/date_rank_data.txt")
+DATE_HOSEICHI = load_txt_one_line("data/update_dates/date_hoseichi.txt")
 
 
 # get のときの処理
@@ -25,9 +25,9 @@ def get():
     return render_template(
         "index.html",
         message=add_p(add_b(mes_get)),
-        date_site=date_site,
-        date_rank_data=date_rank_data,
-        date_hoseichi=date_hoseichi,
+        date_site=DATE_SITE,
+        date_rank_data=DATE_RANK_DATA,
+        date_hoseichi=DATE_HOSEICHI,
     )
 
 
@@ -98,9 +98,9 @@ def post():
             n_contest=n_contest_for_calc,
             weighted=USE_WEIGHTED_MEAN_RANK_RATE,
         ),
-        date_site=date_site,
-        date_rank_data=date_rank_data,
-        date_hoseichi=date_hoseichi,
+        date_site=DATE_SITE,
+        date_rank_data=DATE_RANK_DATA,
+        date_hoseichi=DATE_HOSEICHI,
     )
 
 
