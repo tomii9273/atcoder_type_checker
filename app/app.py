@@ -26,7 +26,7 @@ def add_b(s: str) -> str:
     return "<b>" + s + "</b>"
 
 
-# getのときの処理
+# get のときの処理
 @app.route("/", methods=["GET"])
 def get():
     mes_get = "AtCoder ID を入力してください。"
@@ -39,7 +39,7 @@ def get():
     )
 
 
-# postのときの処理
+# post のときの処理
 @app.route("/", methods=["POST"])
 def post():
     raw_name = request.form["name"]

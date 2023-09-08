@@ -1,5 +1,5 @@
-# 各コンテストの順位表jsonを取得し（ログイン（認証）する必要あり）、
-# 得た順位表jsonから、各点数の順位範囲を求め、元のファイル（points/points.txt）
+# 各コンテストの順位表 json を取得し (ログイン (認証) する必要あり)、
+# 得た順位表 json から、各点数の順位範囲を求め、元のファイル (points/points.txt)
 # の辞書に追加して同名で保存する。
 
 import ast
@@ -42,7 +42,7 @@ contest_names = sorted(list(contest_names))
 
 print(f"新たに順位表 json を取得するコンテストの名前一覧: {contest_names}")
 
-# 各コンテストの順位表jsonを取得
+# 各コンテストの順位表 json を取得
 
 if len(sys.argv) >= 2:
     pw = sys.argv[1]  # GitHub Actions でこの記法を使用している
@@ -66,7 +66,7 @@ for contest_name in contest_names:
     # ログイン情報
     info = {"username": "Tomii9273", "password": pw, "csrf_token": authenticity}
 
-    # URLを叩き、htmlを表示
+    # URL を叩き、html を表示
     res = session.post(url, data=info, cookies=cookie)
     # print(res.text)
 
@@ -76,7 +76,7 @@ for contest_name in contest_names:
     f.close()
 
 
-# 元のファイル（points/points.txt）をロード
+# 元のファイル (points/points.txt) をロード
 f = open("data/points/points.txt", "r")
 for item in f.readlines():
     main_D = ast.literal_eval(item)
@@ -84,7 +84,7 @@ for item in f.readlines():
 f.close()
 
 
-# 得た順位表jsonから、各点数の順位範囲を求め、追加
+# 得た順位表 json から、各点数の順位範囲を求め、追加
 for contest_name in contest_names:
     print("load", contest_name)
     D = {}

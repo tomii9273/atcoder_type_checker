@@ -19,7 +19,7 @@ def parse_html_and_update_data(
 ) -> tuple[set[str], list[tuple[str, int, int]], int]:
     """
     1 ページの html データから、全ユーザーの (ユーザー名, レート, 参加回数) を取得し data に追加して、追加件数とともに返す
-    checked_users: 既に取得済のユーザー名の集合 (重複防止のため)
+    checked_users: 取得済のユーザー名の集合 (重複防止のため)
     """
     with urllib.request.urlopen(url) as res:
         html_data = res.read().decode("utf-8")
@@ -44,18 +44,18 @@ def parse_html_and_update_data(
 
 def get_users_for_hosei(debug: bool = False) -> list:
     """
-    早解き度とレートの相関を調べるために「(5 の倍数の西暦年生まれ or 補正後 rating 2400 (橙) 以上) かつ参加回数 30 回以上のアクティブユーザー」の
+    早解き度とレートの相関を調べるために「(5 の倍数の西暦年生まれ or 補正後 rating が 2400 (橙色) 以上) かつ参加回数 30 回以上のアクティブユーザー」の
     (ユーザー名, 補正後 rating, rated 参加数) の一覧を得る。
     (debug = True のときは「1995 年生まれの参加回数 30 回以上のアクティブユーザーのうち、Rating 上位 100 人」のみ)
     """
 
-    checked_users: set[str] = set()
-    data: list[tuple[str, int, int]] = []
+    checked_users: set[str] = set()  # 取得済のユーザー名の集合 (重複防止のため)
+    data: list[tuple[str, int, int]] = []  # (ユーザー名, レート, 参加回数) リスト
 
     print("get_users_for_hosei start")
     print("19x5-20x5 year start")
 
-    # 5の倍数の西暦年生まれのユーザーを集計
+    # 5 の倍数の西暦年生まれのユーザーを集計
     years = list(range(1905, 2025, 5)) if not debug else [1995]
     for year in years:
         for page_no in range(1, 1000):
@@ -73,7 +73,7 @@ def get_users_for_hosei(debug: bool = False) -> list:
     print("19x5-20x5 year end")
     print("2400- rating start")
 
-    # 補正後rating2400(橙)以上のユーザーを集計 (既に上記で集計したユーザーは除外)
+    # 補正後 rating が 2400 (橙色) 以上のユーザーを集計 (既に上記で集計したユーザーは除外)
     for page_no in range(1, 1000):
         url = f"https://atcoder.jp/ranking?contestType=algo&f.Affiliation=&f.BirthYearLowerBound=0&f.BirthYearUpperBound=9999&f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&f.RatingLowerBound=2400&f.RatingUpperBound=9999&f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={page_no}"
 
