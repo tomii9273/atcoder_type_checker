@@ -67,7 +67,7 @@ def get_users_for_hosei(debug: bool = False) -> list[tuple[str, int, int]]:
             if debug:
                 print("debug end")
                 return data
-            if add_count == 0:  # そのページにユーザーはいないので、打ち切って次の年を調べる
+            if add_count == 0:  # 全ページを見終えた
                 break
 
     print("19x5-20x5 year end")
@@ -79,7 +79,7 @@ def get_users_for_hosei(debug: bool = False) -> list[tuple[str, int, int]]:
 
         checked_users, data, add_count = parse_html_and_update_data(url, checked_users, data)
         time.sleep(1)
-        if add_count == 0:  # そのページにユーザーはいないので、打ち切って次の年を調べる
+        if add_count == 0:  # 全ページを見終えた
             break
 
     print("2400- rating end")
