@@ -15,10 +15,10 @@ class Calc:
         """順位データを読み込む。"""
         f = open("data/points/points.txt", "r")
         for item in f.readlines():
-            main_D = ast.literal_eval(item)
+            score_rank_data = ast.literal_eval(item)
             break
         f.close()
-        self.main_D = main_D
+        self.score_rank_data = score_rank_data
 
     def get_rank_rate(self, user_name: str) -> tuple[float, float, int, int, int]:
         """AtCoder ID から平均順位率 (その得点を獲得した人数で重みづけしたもの・していないものの両方) を取得。補正値算出用。"""
@@ -26,42 +26,47 @@ class Calc:
 
         with urllib.request.urlopen(url) as res:
             html = res.read().decode("utf-8")
-        js = json.loads(html)
+        history = json.loads(html)
 
-        sum_per = 0
-        per_w = 0
-        sum_w = 0
+        sum_rank_rate = 0
+        sum_weighted_rank_rate = 0
+        sum_weight = 0
         n_contest_for_calc = 0
         n_contest_rated = 0
-        for i in range(len(js)):
-            rated = js[i]["IsRated"]
-            contest_name = js[i]["ContestScreenName"][:6]
-            rank = js[i]["Place"]
+
+        for i in range(len(history)):
+            rated = history[i]["IsRated"]
+            contest_name = history[i]["ContestScreenName"][:6]
+            rank = history[i]["Place"]
 
             if rated:
                 n_contest_rated += 1
-            if rated and contest_name in self.main_D:
-                V = list(self.main_D[contest_name].values())
-                K = list(self.main_D[contest_name].keys())
+            if rated and contest_name in self.score_rank_data:
+                scores = list(self.score_rank_data[contest_name].keys())
+                rank_ranges = list(self.score_rank_data[contest_name].values())
                 ind = 0
-                while ind < len(V) and (not (V[ind][0] <= rank <= V[ind][1])):
+                while ind < len(scores) and (not (rank_ranges[ind][0] <= rank <= rank_ranges[ind][1])):
                     ind += 1
-                score = K[ind] if ind < len(K) else 0
-                if score != 0 and V[ind][1] != V[ind][0]:
+                score = scores[ind] if ind < len(scores) else 0
+                rank_l, rank_r = rank_ranges[ind][0], rank_ranges[ind][1]
+                if score != 0 and rank_l != rank_r:
                     n_contest_for_calc += 1
-                    per = (rank - V[ind][0]) / (V[ind][1] - V[ind][0])
-                    weight = V[ind][1] - V[ind][0] + 1  # その得点を獲得した人数で重みづけする
-                    per_w += per * weight
-                    sum_w += weight
-                    sum_per += per
+                    rank_rate = (rank - rank_l) / (rank_r - rank_l)
+                    weight = rank_r - rank_l + 1  # その得点を獲得した人数で重みづけする
+                    sum_rank_rate += rank_rate
+                    sum_weighted_rank_rate += rank_rate * weight
+                    sum_weight += weight
 
         if n_contest_rated == 0:
             return (-1, -1, 0, 0, -1)
-        rate4 = js[-1]["NewRating"]
+
+        rate4 = history[-1]["NewRating"]
+
         if n_contest_for_calc == 0:
             return (-1, -1, n_contest_for_calc, n_contest_rated, rate4)
-        mean_rank_rate = sum_per / n_contest_for_calc
-        weighted_mean_rank_rate = per_w / sum_w
+
+        mean_rank_rate = sum_rank_rate / n_contest_for_calc
+        weighted_mean_rank_rate = sum_weighted_rank_rate / sum_weight
         return (mean_rank_rate, weighted_mean_rank_rate, n_contest_for_calc, n_contest_rated, rate4)
 
     def get_score(
