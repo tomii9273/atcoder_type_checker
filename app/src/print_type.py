@@ -13,12 +13,9 @@ class Calc:
 
     def __init__(self) -> None:
         """順位データを読み込む。"""
-        f = open("data/points/points.txt", "r")
-        for item in f.readlines():
-            score_rank_data = ast.literal_eval(item)
-            break
-        f.close()
-        self.score_rank_data = score_rank_data
+        with open("data/points/points.txt", "r") as f:
+            first_line = f.readline().strip()
+            self.score_rank_data = ast.literal_eval(first_line)
 
     def get_rank_rate(self, user_name: str) -> tuple[float, float, int, int, int]:
         """AtCoder ID から平均順位率 (その得点を獲得した人数で重みづけしたもの・していないものの両方) を取得。補正値算出用。"""
