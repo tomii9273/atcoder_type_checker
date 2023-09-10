@@ -47,6 +47,7 @@ class Calc:
                 ind = 0
                 while ind < len(scores) and (not (rank_ranges[ind][0] <= rank <= rank_ranges[ind][1])):
                     ind += 1
+                # 主に 0 点の場合、まれに (成績表の順位) > (順位表の 0 点の順位) となることがある。その場合のエラーを回避し 0 点として扱う。
                 score = scores[ind] if ind < len(scores) else 0
                 rank_l, rank_r = rank_ranges[ind][0], rank_ranges[ind][1]
                 if score != 0 and rank_l != rank_r:
