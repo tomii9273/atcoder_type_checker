@@ -54,9 +54,7 @@ else:
 for contest_name in contest_names:
     print("start", contest_name)
 
-    url = "https://atcoder.jp/login?continue=https%3A%2F%2Fatcoder.jp%2Fcontests%2F{}%2Fstandings%2Fjson".format(
-        contest_name
-    )
+    url = f"https://atcoder.jp/login?continue=https%3A%2F%2Fatcoder.jp%2Fcontests%2F{contest_name}%2Fstandings%2Fjson"
     session = requests.session()
     response = session.get(url)
     bs = BeautifulSoup(response.text, "html.parser")
@@ -73,7 +71,7 @@ for contest_name in contest_names:
     # print(res.text)
 
     time.sleep(1)
-    f = codecs.open("data/raw_standings/{}.txt".format(contest_name), "w", "utf-8")
+    f = codecs.open(f"data/raw_standings/{contest_name}.txt", "w", "utf-8")
     f.write(res.text)
     f.close()
 
@@ -90,7 +88,7 @@ f.close()
 for contest_name in contest_names:
     print("load", contest_name)
     D = {}
-    f = codecs.open("data/raw_standings/{}.txt".format(contest_name), "r", "utf-8")
+    f = codecs.open(f"data/raw_standings/{contest_name}.txt", "r", "utf-8")
     for item in f.readlines():
         SD = json.loads(item)["StandingsData"]
     for i in range(len(SD)):

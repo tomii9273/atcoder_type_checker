@@ -19,7 +19,7 @@ class Calc:
 
     def get_rank_rate(self, user_name: str) -> tuple[float, float, int, int, int]:
         """AtCoder ID から平均順位率 (その得点を獲得した人数で重みづけしたもの・していないものの両方) を取得。補正値算出用。"""
-        url = "https://atcoder.jp/users/{}/history/json".format(user_name)
+        url = f"https://atcoder.jp/users/{user_name}/history/json"
 
         with urllib.request.urlopen(url) as res:
             html = res.read().decode("utf-8")
