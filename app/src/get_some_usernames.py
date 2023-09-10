@@ -60,12 +60,8 @@ def get_users_for_hosei(debug: bool = False) -> list[tuple[str, int, int]]:
     for year in years:
         for page_no in range(1, 1000):
             url = (
-                f"https://atcoder.jp/ranking?"
-                f"f.Affiliation=&f.BirthYearLowerBound={year}&f.BirthYearUpperBound={year}&"
-                f"f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&"
-                f"f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&"
-                f"f.RatingLowerBound=0&f.RatingUpperBound=9999&"
-                f"f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={page_no}"
+                f"https://atcoder.jp/ranking?contestType=algo&"
+                f"f.BirthYearLowerBound={year}&f.BirthYearUpperBound={year}&page={page_no}"
             )
             checked_users, data, add_count = parse_html_and_update_data(url, checked_users, data)
             time.sleep(1)
@@ -80,16 +76,7 @@ def get_users_for_hosei(debug: bool = False) -> list[tuple[str, int, int]]:
 
     # 補正後 rating が 2400 (橙色) 以上のユーザーを集計 (既に上記で集計したユーザーは除外)
     for page_no in range(1, 1000):
-        url = (
-            f"https://atcoder.jp/ranking?"
-            f"contestType=algo&f.Affiliation=&"
-            f"f.BirthYearLowerBound=0&f.BirthYearUpperBound=9999&"
-            f"f.CompetitionsLowerBound=30&f.CompetitionsUpperBound=9999&f.Country=&"
-            f"f.HighestRatingLowerBound=0&f.HighestRatingUpperBound=9999&"
-            f"f.RatingLowerBound=2400&f.RatingUpperBound=9999&"
-            f"f.UserScreenName=&f.WinsLowerBound=0&f.WinsUpperBound=9999&page={page_no}"
-        )
-
+        url = f"https://atcoder.jp/ranking?contestType=algo&f.RatingLowerBound=2400&page={page_no}"
         checked_users, data, add_count = parse_html_and_update_data(url, checked_users, data)
         time.sleep(1)
         if add_count == 0:  # 全ページを見終えた
