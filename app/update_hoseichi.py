@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 
 from src.get_some_usernames import get_users_for_hosei
