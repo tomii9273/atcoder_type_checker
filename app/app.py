@@ -20,6 +20,26 @@ DATE_RANK_DATA = load_txt_one_line("data/update_dates/date_rank_data.txt")
 DATE_HOSEICHI = load_txt_one_line("data/update_dates/date_hoseichi.txt")
 
 
+def score_to_message(name: str, score: float) -> str:
+    """名前とスコアからタイプ表示文を作成する。"""
+    mes = f"{name} さんのスコアは {score:.2f} です。"
+    if score < -10:
+        mes += "かなり、早く解くタイプです。"
+    elif score < -5:
+        mes += "早く解くタイプです。"
+    elif score < -1:
+        mes += "わずかに、早く解くタイプです。"
+    elif score < 1:
+        mes += "中間的なタイプです。"
+    elif score < 5:
+        mes += "わずかに、多く解くタイプです。"
+    elif score < 10:
+        mes += "多く解くタイプです。"
+    else:
+        mes += "かなり、多く解くタイプです。"
+    return mes
+
+
 # get のときの処理
 @app.route("/", methods=["GET"])
 def get():
@@ -48,23 +68,8 @@ def post():
         mes = add_p(add_b(mes_main))
     else:
         score = 100 * hosei_mean_rank_rate
-        mes_main = "{} さんのスコアは {:.2f} です。".format(name, score)
+        mes_main = score_to_message(name, score)
         mes_outlier = ""
-        if score < -10:
-            mes_main += "かなり、早く解くタイプです。"
-        elif score < -5:
-            mes_main += "早く解くタイプです。"
-        elif score < -1:
-            mes_main += "わずかに、早く解くタイプです。"
-        elif score < 1:
-            mes_main += "中間的なタイプです。"
-        elif score < 5:
-            mes_main += "わずかに、多く解くタイプです。"
-        elif score < 10:
-            mes_main += "多く解くタイプです。"
-        else:
-            mes_main += "かなり、多く解くタイプです。"
-
         if not (0 <= rate2 <= 3200):
             mes_outlier += "※ 内部レートが 0 ～ 3200 の範囲外のため、サンプル不足により結果の信頼度が低くなっています。"
 
