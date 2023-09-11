@@ -38,22 +38,26 @@ class Calc:
 
             if rated:
                 n_contest_rated += 1
+
             if rated and contest_name in self.score_rank_data:
                 scores = list(self.score_rank_data[contest_name].keys())
                 rank_ranges = list(self.score_rank_data[contest_name].values())
                 ind = 0
                 while ind < len(scores) and (not (rank_ranges[ind][0] <= rank <= rank_ranges[ind][1])):
                     ind += 1
-                # 主に 0 点の場合、まれに (成績表の順位) > (順位表の 0 点の順位) となることがある。その場合のエラーを回避し 0 点として扱う。
+                # 主に 0 点の場合、まれに (成績表の順位) > (順位表の 0 点の順位) となることがある。その場合の範囲外参照エラーを回避し 0 点として扱う。
                 score = scores[ind] if ind < len(scores) else 0
+                if score == 0:
+                    continue
                 rank_l, rank_r = rank_ranges[ind][0], rank_ranges[ind][1]
-                if score != 0 and rank_l != rank_r:
-                    n_contest_for_calc += 1
-                    rank_rate = (rank - rank_l) / (rank_r - rank_l)
-                    weight = rank_r - rank_l + 1  # その得点を獲得した人数で重みづけする
-                    sum_rank_rate += rank_rate
-                    sum_weighted_rank_rate += rank_rate * weight
-                    sum_weight += weight
+                if rank_l == rank_r:
+                    continue
+                n_contest_for_calc += 1
+                rank_rate = (rank - rank_l) / (rank_r - rank_l)
+                weight = rank_r - rank_l + 1  # その得点を獲得した人数で重みづけする
+                sum_rank_rate += rank_rate
+                sum_weighted_rank_rate += rank_rate * weight
+                sum_weight += weight
 
         if n_contest_rated == 0:
             return (-1, -1, 0, 0, -1)
