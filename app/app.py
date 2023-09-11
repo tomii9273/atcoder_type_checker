@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import re
 
 from flask import Flask, render_template, request
@@ -6,40 +8,52 @@ from flask_limiter.util import get_remote_address
 from src.const import HOSEICHI_FILE_PATH, USE_WEIGHTED_MEAN_RANK_RATE
 from src.plot_result import plot_result
 from src.print_type import Calc
-from src.utils import load_txt_one_line
+from src.utils import add_b, add_p, load_txt_one_line
 
 app = Flask(__name__)
 app.config["RATELIMIT_HEADERS_ENABLED"] = True  # ヘッダーに RateLimit 情報を出力
 limiter = Limiter(get_remote_address, app=app, default_limits=["50 per minute"])
 
 
-date_site = load_txt_one_line("data/update_dates/date_site.txt")
-date_rank_data = load_txt_one_line("data/update_dates/date_rank_data.txt")
-date_hoseichi = load_txt_one_line("data/update_dates/date_hoseichi.txt")
+DATE_SITE = load_txt_one_line("data/update_dates/date_site.txt")
+DATE_RANK_DATA = load_txt_one_line("data/update_dates/date_rank_data.txt")
+DATE_HOSEICHI = load_txt_one_line("data/update_dates/date_hoseichi.txt")
 
 
-def add_p(s: str) -> str:
-    return "<p>" + s + "</p>"
+def score_to_message(name: str, score: float) -> str:
+    """名前とスコアからタイプ表示文を作成する。"""
+    mes = f"{name} さんのスコアは {score:.2f} です。"
+    if score < -10:
+        mes += "かなり、早く解くタイプです。"
+    elif score < -5:
+        mes += "早く解くタイプです。"
+    elif score < -1:
+        mes += "わずかに、早く解くタイプです。"
+    elif score < 1:
+        mes += "中間的なタイプです。"
+    elif score < 5:
+        mes += "わずかに、多く解くタイプです。"
+    elif score < 10:
+        mes += "多く解くタイプです。"
+    else:
+        mes += "かなり、多く解くタイプです。"
+    return mes
 
 
-def add_b(s: str) -> str:
-    return "<b>" + s + "</b>"
-
-
-# getのときの処理
+# get のときの処理
 @app.route("/", methods=["GET"])
 def get():
     mes_get = "AtCoder ID を入力してください。"
     return render_template(
         "index.html",
         message=add_p(add_b(mes_get)),
-        date_site=date_site,
-        date_rank_data=date_rank_data,
-        date_hoseichi=date_hoseichi,
+        date_site=DATE_SITE,
+        date_rank_data=DATE_RANK_DATA,
+        date_hoseichi=DATE_HOSEICHI,
     )
 
 
-# postのときの処理
+# post のときの処理
 @app.route("/", methods=["POST"])
 def post():
     raw_name = request.form["name"]
@@ -49,35 +63,20 @@ def post():
         user_name=name, hoseichi_file_path=HOSEICHI_FILE_PATH, weighted=USE_WEIGHTED_MEAN_RANK_RATE
     )
     if n_contest_for_calc == 0:
-        mes_main = "{} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。".format(name)
+        mes_main = f"{name} さんは集計対象となるような参加の回数が 0 回であるか、または ID が存在しません。"
         mes_for_tweet = mes_main
         mes = add_p(add_b(mes_main))
     else:
         score = 100 * hosei_mean_rank_rate
-        mes_main = "{} さんのスコアは {:.2f} です。".format(name, score)
+        mes_main = score_to_message(name, score)
         mes_outlier = ""
-        if score < -10:
-            mes_main += "かなり、早く解くタイプです。"
-        elif score < -5:
-            mes_main += "早く解くタイプです。"
-        elif score < -1:
-            mes_main += "わずかに、早く解くタイプです。"
-        elif score < 1:
-            mes_main += "中間的なタイプです。"
-        elif score < 5:
-            mes_main += "わずかに、多く解くタイプです。"
-        elif score < 10:
-            mes_main += "多く解くタイプです。"
-        else:
-            mes_main += "かなり、多く解くタイプです。"
-
         if not (0 <= rate2 <= 3200):
             mes_outlier += "※ 内部レートが 0 ～ 3200 の範囲外のため、サンプル不足により結果の信頼度が低くなっています。"
 
-        mes_inner_rate = "{} さんの内部レート: {:.2f}".format(name, rate2)
-        mes_n_contest = "計算に使用したコンテスト数: {:}".format(n_contest_for_calc)
-        mes_mean_rank_rate = "{} さんの平均順位率: {:.4f}".format(name, mean_rank_rate)
-        mes_hosei = "内部レートによる補正値: {:.4f} ({} さんと同程度の内部レートの人が平均的に取得している平均順位率)".format(hoseichi, name)
+        mes_inner_rate = f"{name} さんの内部レート: {rate2:.2f}"
+        mes_n_contest = f"計算に使用したコンテスト数: {n_contest_for_calc}"
+        mes_mean_rank_rate = f"{name} さんの平均順位率: {mean_rank_rate:.4f}"
+        mes_hosei = f"内部レートによる補正値: {hoseichi:.4f} ({name} さんと同程度の内部レートの人が平均的に取得している平均順位率)"
         mes_score = "スコアは下図の黒実線と赤丸の y 座標の差を 100 倍し、符号を付けたものです。"
 
         mes = (
@@ -102,13 +101,13 @@ def post():
         svgstr=plot_result(
             name=name,
             rate2=rate2,
-            first_score=mean_rank_rate,
-            times=n_contest_for_calc,
+            mean_rank_rate=mean_rank_rate,
+            n_contest=n_contest_for_calc,
             weighted=USE_WEIGHTED_MEAN_RANK_RATE,
         ),
-        date_site=date_site,
-        date_rank_data=date_rank_data,
-        date_hoseichi=date_hoseichi,
+        date_site=DATE_SITE,
+        date_rank_data=DATE_RANK_DATA,
+        date_hoseichi=DATE_HOSEICHI,
     )
 
 

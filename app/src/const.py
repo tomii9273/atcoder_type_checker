@@ -1,3 +1,6 @@
+# AtCoder の自分のユーザー ID
+MY_USER_ID = "Tomii9273"
+
 # 最小二乗法で求める補正値ラインの次数 (2 だとトップ層でアンダーフィットだったので 10 に変更)
 DEGREE_OF_HOSEI_CURVE = 10
 
