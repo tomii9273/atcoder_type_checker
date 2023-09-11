@@ -20,16 +20,20 @@ contest_names = set()  # 新たに順位表 json を取得するコンテスト�
 # 過去のコンテストのページから、コンテスト名を取得 (1 ページのみ見る)
 url = "https://atcoder.jp/contests/archive"
 with urllib.request.urlopen(url) as res:
-    html = res.read().decode("utf-8").splitlines()
+    html_data = res.read().decode("utf-8")
 
-contest_name_head = '<a href="/contests/'
+soup = BeautifulSoup(html_data, "html.parser")
 
-for line in html:
-    if contest_name_head in line:
-        ind_start = line.index(contest_name_head) + len(contest_name_head)
-        contest_name = line[ind_start : ind_start + 6]
-        if re.fullmatch("a[brg]c[0-9]{3}", contest_name):
-            contest_names.add(contest_name)
+body_data = (
+    soup.find("div", {"class": "table-responsive"})
+    .find("table", {"class": "table table-default table-striped table-hover table-condensed table-bordered small"})
+    .find("tbody")
+)
+contest_blocks = body_data.find_all("tr")
+for block in contest_blocks:
+    contest_name = block.find_all("td")[1].find("a", href=True)["href"].split("/")[-1]
+    if re.fullmatch("a[brg]c[0-9]{3}", contest_name):
+        contest_names.add(contest_name)
 
 # 既に取得済のコンテストを除外
 f = open("data/points/points.txt", "r")
