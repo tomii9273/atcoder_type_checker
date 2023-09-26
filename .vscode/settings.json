@@ -17,4 +17,8 @@
     "python.analysis.extraPaths" : [
         ".venv/Lib/site-packages"
     ],
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.printWidth": 200
 }
