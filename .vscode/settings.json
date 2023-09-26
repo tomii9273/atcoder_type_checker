@@ -17,6 +17,9 @@
     "python.analysis.extraPaths" : [
         ".venv/Lib/site-packages"
     ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+    },
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
