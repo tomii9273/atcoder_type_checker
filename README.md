@@ -1,7 +1,7 @@
 # AtCoder Type Checker
 
 AtCoder のコンテスト成績から「多く解くタイプ」であるか「早く解くタイプ」であるかを判定する Web アプリです。  
-https://atcoder-type-checker.herokuapp.com/  
+https://atcoder-type-checker.herokuapp.com/
 
 ## 関連リンク
 
@@ -10,6 +10,15 @@ https://atcoder-type-checker.herokuapp.com/
 - 作成者 Twitter: https://twitter.com/Tomii9273
 - AtCoder: https://atcoder.jp
 - 「#AtCoder_Type_Checker」での最新ツイート: https://twitter.com/search?q=%23AtCoder_Type_Checker%20&src=recent_search_click&f=live
+
+## 仮想環境について (暫定・自分用)
+
+venv を使用している。
+
+- 本番環境 (`.venv_prod`): `requirements.txt`
+  - このファイルは Heroku でデプロイ時に使われる。
+- 開発環境 (`.venv_dev`): `requirements_dev.txt`
+  - 本番環境のライブラリに加えて、分析用のものや linter が含まれる。
 
 ## スクリプト一覧
 
