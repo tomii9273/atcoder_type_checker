@@ -15,7 +15,7 @@
     "files.trimFinalNewlines": true,
     "python.linting.mypyEnabled": true,
     "python.analysis.extraPaths" : [
-        ".venv/Lib/site-packages"
+        ".venv_dev/Lib/site-packages"
     ],
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",

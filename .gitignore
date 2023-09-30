@@ -3,3 +3,5 @@ __pycache__
 /ignore
 app/data/raw_standings
 .venv
+.venv_dev
+.venv_prod
