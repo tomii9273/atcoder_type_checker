@@ -2,7 +2,7 @@ name: monthly_hoseichi_update
 on:
   schedule:
     # 日本時間で毎月 1 日の 16 時に実行
-    - cron: '0 7 1 * *'
+    - cron: "0 7 1 * *"
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -43,4 +43,4 @@ jobs:
           git pull
           git push origin main
         env:
-          TZ: 'Asia/Tokyo'
+          TZ: "Asia/Tokyo"
