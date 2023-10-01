@@ -3,6 +3,7 @@ on:
   schedule:
     # 日本時間で毎月 1 日の 16 時に実行
     - cron: "0 7 1 * *"
+  workflow_dispatch: # 手動でのトリガーも可能にする
 
 jobs:
   build:
