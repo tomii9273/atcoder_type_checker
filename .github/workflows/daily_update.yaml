@@ -2,7 +2,7 @@ name: daily_update
 on:
   schedule:
     # 日本時間で毎日 15 時に実行
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -45,4 +45,4 @@ jobs:
             git push origin main
           fi
         env:
-          TZ: 'Asia/Tokyo'
+          TZ: "Asia/Tokyo"
