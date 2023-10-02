@@ -70,8 +70,10 @@ def get_users_for_hosei(debug: bool = False) -> list[tuple[str, int, int]]:
                 return data
             if add_count == 0:  # 全ページを見終えた
                 break
+            else:
+                print(f"got year {year} page_no {page_no}")
 
-    print("19x5-20x5 year end")
+    print(f"19x5-20x5 year end (total {len(checked_users)} users)")
     print("2400- rating start")
 
     # 補正後 rating が 2400 (橙色) 以上のユーザーを集計 (既に上記で集計したユーザーは除外)
@@ -84,6 +86,9 @@ def get_users_for_hosei(debug: bool = False) -> list[tuple[str, int, int]]:
         time.sleep(1)
         if add_count == 0:  # 全ページを見終えた
             break
+        else:
+            print(f"got page_no {page_no}")
 
     print("2400- rating end")
+    print(f"total {len(checked_users)} users")
     return data
