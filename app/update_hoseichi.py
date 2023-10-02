@@ -12,6 +12,7 @@ def make_new_hoseichi(file_name: str, debug: bool) -> None:
     debug = True のときは少人数で行う。
     """
     data = get_users_for_hosei(debug)
+    assert debug or 1000 <= len(data) <= 5000, f"len(data) out of range: {len(data)}"  # 通常 2,000 人前後
     get_type_for_hosei(data, file_name)
 
 
