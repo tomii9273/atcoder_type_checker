@@ -29,7 +29,7 @@ jobs:
           git config user.email github-actions@github.com
           cd app
           file_name=monthly_5ntop_$(date +'%Y%m%d').npy
-          python update_hoseichi.py -n ${file_name}
+          python -u update_hoseichi.py -n ${file_name}
           git add data/hoseichi/${file_name}
           sed -i "s/\(HOSEICHI_FILE_PATH = \)".*"/\1\"data\/hoseichi\/$file_name\"/g" src/const.py
           git add src/const.py
