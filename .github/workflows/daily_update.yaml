@@ -30,7 +30,7 @@ jobs:
           git config user.email github-actions@github.com
           cd app
           mkdir data/raw_standings
-          python get_standing_and_join.py ${{secrets.ATCODER_PASSWORD}}
+          python -u get_standing_and_join.py ${{secrets.ATCODER_PASSWORD}}
           git add data/points/points.txt
           if [[ -n $(git diff --name-only --cached) ]]; then
             date_now=$(date +'%Y/%m/%d')
