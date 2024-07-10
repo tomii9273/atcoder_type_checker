@@ -1,6 +1,6 @@
 # AtCoder Type Checker
 
-AtCoder のコンテスト成績から「多く解くタイプ」であるか「早く解くタイプ」であるかを判定する Web アプリです。  
+[AtCoder](https://atcoder.jp) のコンテスト成績から「多く解くタイプ」であるか「早く解くタイプ」であるかを判定する Web アプリです。  
 https://atcoder-type-checker.herokuapp.com/
 
 ## 関連リンク
