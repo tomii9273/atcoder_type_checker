@@ -18,24 +18,24 @@
 
   <body>
     <h1>Q&A</h1>
-    <p class="question">Q1: 「内部レートによる補正値」はコンテストのたびに更新していますか？</p>
-    <p class="answer">A1: いいえ、2023 年 9 月以降は、原則として毎月 1 日の 16 時頃に更新しています。</p>
-    <p class="question">Q2: 「補正値算出に使用したユーザー」はどのように選んでいますか？</p>
+    <p class="question">Q1: バグ・記載ミス・誤字脱字等があります。または、スコアやプロットが正常に表示されません。</p>
     <p class="answer">
-      A2: 更新時点で (誕生年が 5 の倍数または補正後のレーティングが 2400 以上) かつ Rated での参加数が 30
+      A1: 申し訳ございません。<a href="https://x.com/Tomii9273">X (Twitter)</a> か <a href="https://github.com/tomii9273/atcoder_type_checker">GitHub</a> までご連絡をいただけると嬉しいです。
+    </p>
+    <p class="question">Q2: ソースコードは公開していますか？</p>
+    <p class="answer">A2: (2024-07-13 更新) 公開しています (<a href="https://github.com/tomii9273/atcoder_type_checker">GitHub リポジトリ</a>)。</p>
+    <p class="question">Q3: 「内部レートによる補正値」はコンテストのたびに更新していますか？</p>
+    <p class="answer">A3: いいえ、2023 年 9 月以降は、原則として毎月 1 日の 16 時頃に更新しています。</p>
+    <p class="question">Q4: 「補正値算出に使用したユーザー」はどのように選んでいますか？</p>
+    <p class="answer">
+      A4: 更新時点で (誕生年が 5 の倍数または補正後のレーティングが 2400 以上) かつ Rated での参加数が 30
       回以上のアクティブ参加者を選んでいます。(高レート帯は人数が少ないので補正精度を高めるために全員を選び、高レート帯以外は属性が偏らないようにしながら一部を抽出したい、という気持ちです。)
     </p>
-    <p class="question">Q3: 平均順位率を求める際に、Rated 参加の結果のみを対象としているのはなぜですか？</p>
+    <p class="question">Q5: 平均順位率を求める際に、Rated 参加の結果のみを対象としているのはなぜですか？</p>
     <p class="answer">
-      A3: 例えば橙色以上の参加者は、(特に 6 問以下の頃の) ABC では比較的短時間で全問正解していることが多く、この場合 Unrated 参加の結果を含めると普段 ABC
+      A5: 例えば橙色以上の参加者は、(特に 6 問以下の頃の) ABC では比較的短時間で全問正解していることが多く、この場合 Unrated 参加の結果を含めると普段 ABC
       に参加している人ほど早く解くタイプと判定されてしまう可能性があります。このようなケースを防ぐために、Rated 参加の結果のみを対象としています。
     </p>
-    <p class="question">Q4: バグ・記載ミス・誤字脱字等があります。または、スコアやプロットが正常に表示されません。</p>
-    <p class="answer">
-      A4: 申し訳ございません。<a href="https://x.com/Tomii9273">X (Twitter)</a> か <a href="https://github.com/tomii9273/atcoder_type_checker">GitHub</a> までご連絡をいただけると嬉しいです。
-    </p>
-    <p class="question">Q5: ソースコードは公開していますか？</p>
-    <p class="answer">A5: (2024-07-13 更新) 公開しています (<a href="https://github.com/tomii9273/atcoder_type_checker">GitHub リポジトリ</a>)。</p>
     <p class="question">Q6: リポジトリにはどのようなデータを保存していますか？</p>
     <p class="answer">
       A6: 各コンテストにおける「A 位から B 位までの得点が C 点であった」というデータ (これを「順位データ」と呼んでいます)・補正値算出に使用したユーザーの (内部レート, 平均順位率) を保存しています。<br />
