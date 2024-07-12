@@ -5,9 +5,9 @@ https://atcoder-type-checker.herokuapp.com/
 
 ## 関連リンク
 
-- 作成者 X (Twitter): https://twitter.com/Tomii9273
+- 作成者 X (Twitter): https://x.com/Tomii9273
 - AtCoder: https://atcoder.jp
-- 「#AtCoder_Type_Checker」での最新ポスト: https://twitter.com/search?q=%23AtCoder_Type_Checker%20&src=recent_search_click&f=live
+- 「#AtCoder_Type_Checker」での最新ポスト: https://x.com/search?q=%23AtCoder_Type_Checker%20&src=recent_search_click&f=live
 - Heroku 管理画面 [Private]: https://dashboard.heroku.com/apps/atcoder-type-checker
 - タスク一覧 (カンバン形式) [Private]: https://github.com/tomii9273/atcoder_type_checker/projects/1
 
