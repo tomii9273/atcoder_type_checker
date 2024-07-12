@@ -31,18 +31,20 @@
       に参加している人ほど早く解くタイプと判定されてしまう可能性があります。このようなケースを防ぐために、Rated 参加の結果のみを対象としています。
     </p>
     <p class="question">Q4: バグ・記載ミス・誤字脱字等があります。または、スコアやプロットが正常に表示されません。</p>
-    <p class="answer">A4: 申し訳ございません。<a href="https://twitter.com/Tomii9273">X (Twitter)</a> まで連絡をいただけると嬉しいです。</p>
+    <p class="answer">
+      A4: 申し訳ございません。<a href="https://twitter.com/Tomii9273">X (Twitter)</a> か <a href="https://github.com/tomii9273/atcoder_type_checker">GitHub</a> までご連絡をいただけると嬉しいです。
+    </p>
     <p class="question">Q5: ソースコードは公開していますか？</p>
-    <p class="answer">A5: 現在、公開していません。(GitHub のプライベートリポジトリで管理しています。)</p>
+    <p class="answer">A5: (2024-07-13 更新) 公開しています (<a href="https://github.com/tomii9273/atcoder_type_checker">GitHub リポジトリ</a>)。</p>
     <p class="question">Q6: リポジトリにはどのようなデータを保存していますか？</p>
     <p class="answer">
       A6: 各コンテストにおける「A 位から B 位までの得点が C 点であった」というデータ (これを「順位データ」と呼んでいます)・補正値算出に使用したユーザーの (内部レート, 平均順位率) を保存しています。<br />
       順位表そのもの・各ユーザーのコンテスト成績表・各ユーザーの AtCoder ID は保存していません。
     </p>
     <p class="question">Q7: 順位データの自動更新はどのような方法で行っていますか？</p>
-    <p class="answer">A7: GitHub Actions で行っています。</p>
+    <p class="answer">A7: GitHub Actions で行っています。(<a href="https://github.com/tomii9273/atcoder_type_checker/blob/main/.github/workflows/daily_update.yaml">コード</a>)</p>
     <p class="question">Q8: 補正値算出に使用したユーザーの (内部レート, 平均順位率) からどのようにして補正値ラインを作成していますか？</p>
-    <p class="answer">A8: 最小二乗法による 10 次式近似で作成しています。</p>
+    <p class="answer">A8: 最小二乗法による 10 次式近似で作成しています。(<a href="https://github.com/tomii9273/atcoder_type_checker/pull/66">参考</a>)</p>
     <p class="question">Q9: 「Too Many Requests」と表示されます。</p>
     <p class="answer">
       A9: 1 分程待ってから更新してみてください。AtCoder および当サイトへの DoS 攻撃等の対策として、同一 IP アドレスからのアクセスを最大 50 回/分に制限しています。ページの更新や OK
