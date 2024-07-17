@@ -25,7 +25,7 @@ jobs:
 
       - name: Update
         run: |
-          date_now=$(date +'%Y/%m/%d')
+          date_now=$(date +'%Y-%m-%d')
           date_txt=$(echo $(cat app/data/update_dates/date_site.txt) | cut -c 1-10)
           echo ${{ steps.upstreambranch.outputs.branchname }}
           if [ $date_now != $date_txt ]; then

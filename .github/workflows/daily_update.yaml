@@ -33,8 +33,8 @@ jobs:
           python -u get_standing_and_join.py ${{secrets.ATCODER_PASSWORD}}
           git add data/points/points.txt
           if [[ -n $(git diff --name-only --cached) ]]; then
-            date_now=$(date +'%Y/%m/%d')
-            date_yesterday=$(date +'%Y/%m/%d' --date '1 day ago')
+            date_now=$(date +'%Y-%m-%d')
+            date_yesterday=$(date +'%Y-%m-%d' --date '1 day ago')
             rm -f data/update_dates/date_site.txt
             rm -f data/update_dates/date_rank_data.txt
             echo $date_now >> data/update_dates/date_site.txt
