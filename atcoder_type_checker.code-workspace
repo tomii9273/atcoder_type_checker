@@ -1,12 +1,12 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"terminal.integrated.cwd": ".",
-		"terminal.integrated.scrollback": 200000,
-		"python.languageServer": "Pylance",
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": ".",
+    "terminal.integrated.scrollback": 200000,
+    "python.languageServer": "Pylance"
+  }
 }
