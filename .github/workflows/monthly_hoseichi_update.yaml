@@ -33,7 +33,7 @@ jobs:
           git add data/hoseichi/${file_name}
           sed -i "s/\(HOSEICHI_FILE_PATH = \)".*"/\1\"data\/hoseichi\/$file_name\"/g" src/const.py
           git add src/const.py
-          date_now=$(date +'%Y/%m/%d')
+          date_now=$(date +'%Y-%m-%d')
           rm -f data/update_dates/date_site.txt
           rm -f data/update_dates/date_hoseichi.txt
           echo $date_now >> data/update_dates/date_site.txt
