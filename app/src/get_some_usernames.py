@@ -1,12 +1,14 @@
-import time
 import urllib.request
+from datetime import datetime
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
+from .atcoder_client import AtCoderClient
+
 
 def get_one_user_data(block: Tag) -> tuple[str, int, int]:
-    """1 ユーザーデータのブロックから (ユーザー名, レート, 参加回数) を取得する"""
+    """1 ユーザー分の (ユーザー名, レート, Rated 参加回数) を取得する。"""
     user_name = block.find_all("a", href=True)[1].find(["href", "span"]).get_text(strip=True)
     tds = block.find_all("td")
     rate4 = tds[3].get_text(strip=True)
@@ -15,16 +17,21 @@ def get_one_user_data(block: Tag) -> tuple[str, int, int]:
 
 
 def parse_html_and_update_data(
-    url: str, checked_users: set[str], data: list[tuple[str, int, int]]
+    url: str,
+    checked_users: set[str],
+    data: list[tuple[str, int, int]],
+    client: AtCoderClient | None = None,
 ) -> tuple[set[str], list[tuple[str, int, int]], int]:
     """
-    1 ページの html データから、全ユーザーの (ユーザー名, レート, 参加回数) を取得し data に追加して、追加件数とともに返す
-    checked_users: 取得済のユーザー名の集合 (重複防止のため)
+    1 ページ分の HTML から必要なユーザー情報を追加して、
+    追加件数も返す。
     """
-    with urllib.request.urlopen(url) as res:
-        html_data = res.read().decode("utf-8")
-
-    soup = BeautifulSoup(html_data, "html.parser")
+    if client is None:
+        with urllib.request.urlopen(url) as res:
+            html_data = res.read().decode("utf-8")
+        soup = BeautifulSoup(html_data, "html.parser")
+    else:
+        soup = client.get_bs(url)
 
     body_data = (
         soup.find("div", {"class": "table-responsive"})
@@ -42,52 +49,46 @@ def parse_html_and_update_data(
     return checked_users, data, add_count
 
 
-def get_users_for_hosei(debug: bool = False) -> list[tuple[str, int, int]]:
+def get_users_for_hosei(debug: bool = False, client: AtCoderClient | None = None) -> list[tuple[str, int, int]]:
     """
-    早解き度とレートの相関を調べるために「(5 の倍数の西暦年生まれ or 補正後 rating が 2400 (橙色) 以上) かつ参加回数 30 回以上のアクティブユーザー」の
-    (ユーザー名, 補正後 rating, rated 参加数) の一覧を得る。
-    (debug = True のときは「1995 年生まれの参加回数 30 回以上のアクティブユーザーのうち、Rating 上位 100 人」のみ)
+    補正値作成に使うユーザー一覧を取得する。
+    19x5 - 20x5 年生まれ、またはレート 2400 以上のうち、
+    Rated 参加回数 30 回以上の Algo ユーザーを集める。
     """
-
-    checked_users: set[str] = set()  # 取得済のユーザー名の集合 (重複防止のため)
-    data: list[tuple[str, int, int]] = []  # (ユーザー名, レート, 参加回数) リスト
+    checked_users: set[str] = set()
+    data: list[tuple[str, int, int]] = []
 
     print("get_users_for_hosei start")
     print("19x5-20x5 year start")
 
-    # 5 の倍数の西暦年生まれのユーザーを集計
-    years = list(range(1905, 2025, 5)) if not debug else [1995]
+    years = list(range(1905, datetime.now().year + 1, 5)) if not debug else [1995]
     for year in years:
         for page_no in range(1, 1000):
             url = (
-                f"https://atcoder.jp/ranking?contestType=algo&f.CompetitionsLowerBound=30&"
-                f"f.BirthYearLowerBound={year}&f.BirthYearUpperBound={year}&page={page_no}"
+                "https://atcoder.jp/ranking?contestType=algo"
+                f"&f.CompetitionsLowerBound=30&f.BirthYearLowerBound={year}"
+                f"&f.BirthYearUpperBound={year}&page={page_no}"
             )
-            checked_users, data, add_count = parse_html_and_update_data(url, checked_users, data)
-            time.sleep(1)
+            checked_users, data, add_count = parse_html_and_update_data(url, checked_users, data, client=client)
             if debug:
                 print("debug end")
                 return data
-            if add_count == 0:  # 全ページを見終えた
+            if add_count == 0:
                 break
-            else:
-                print(f"got year {year} page_no {page_no}")
+            print(f"got year {year} page_no {page_no}")
 
     print(f"19x5-20x5 year end (total {len(checked_users)} users)")
     print("2400- rating start")
 
-    # 補正後 rating が 2400 (橙色) 以上のユーザーを集計 (既に上記で集計したユーザーは除外)
     for page_no in range(1, 1000):
         url = (
-            f"https://atcoder.jp/ranking?contestType=algo&f.CompetitionsLowerBound=30&"
-            f"f.RatingLowerBound=2400&page={page_no}"
+            "https://atcoder.jp/ranking?contestType=algo"
+            f"&f.CompetitionsLowerBound=30&f.RatingLowerBound=2400&page={page_no}"
         )
-        checked_users, data, add_count = parse_html_and_update_data(url, checked_users, data)
-        time.sleep(1)
-        if add_count == 0:  # 全ページを見終えた
+        checked_users, data, add_count = parse_html_and_update_data(url, checked_users, data, client=client)
+        if add_count == 0:
             break
-        else:
-            print(f"got page_no {page_no}")
+        print(f"got page_no {page_no}")
 
     print("2400- rating end")
     print(f"total {len(checked_users)} users")

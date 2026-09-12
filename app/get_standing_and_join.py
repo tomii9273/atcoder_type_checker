@@ -1,40 +1,28 @@
 #!/usr/bin/env python3
 
-
+import argparse
 import ast
-import json
 import re
-import sys
-import time
-import urllib.request
+from typing import Any
 
-import requests
 from bs4 import BeautifulSoup
-from src.const import MY_USER_ID
+
+from src.atcoder_client import AtCoderClient
 
 
-def get_score_rank_dict(password: str, contest_name: str) -> dict[int, list[int]]:
-    """1 コンテストについて、順位表 json を取得し、各点数の順位範囲を求める。"""
-    # クッキーとトークンを取得
-    url = f"https://atcoder.jp/login?continue=https%3A%2F%2Fatcoder.jp%2Fcontests%2F{contest_name}%2Fstandings%2Fjson"
-    session = requests.session()
-    response = session.get(url)
-    bs = BeautifulSoup(response.text, "html.parser")
+def url_to_bs(url: str, client: AtCoderClient) -> BeautifulSoup:
+    """ブラウザセッションを使って URL から BeautifulSoup を生成する。"""
+    return client.get_bs(url)
 
-    authenticity = bs.find(attrs={"name": "csrf_token"}).get("value")
-    cookie = response.cookies
 
-    # ログインして順位表 json を取得
-    info = {"username": MY_USER_ID, "password": password, "csrf_token": authenticity}
-    response = session.post(url, data=info, cookies=cookie)
-    time.sleep(1)
-    standing_data = json.loads(response.text)["StandingsData"]
-
-    # 各点数の順位範囲を求める
+def standing_data_to_score_rank_dict(
+    standing_data: list[dict[str, Any]],
+) -> dict[int, list[int]]:
+    """standings/json の内容を score -> rank 範囲に変換する。"""
     score_rank_dict: dict[int, list[int]] = {}
-    for i in range(len(standing_data)):
-        rank = standing_data[i]["Rank"]
-        score = standing_data[i]["TotalResult"]["Score"] // 100
+    for one_standing_data in standing_data:
+        rank = int(one_standing_data["Rank"])
+        score = int(one_standing_data["TotalResult"]["Score"]) // 100
         if score in score_rank_dict:
             score_rank_dict[score][0] = min(score_rank_dict[score][0], rank)
             score_rank_dict[score][1] = max(score_rank_dict[score][1], rank)
@@ -44,59 +32,110 @@ def get_score_rank_dict(password: str, contest_name: str) -> dict[int, list[int]
     return score_rank_dict
 
 
-def get_standing_and_join() -> None:
-    """
-    各コンテストの順位表 json を取得し (ログイン (認証) する必要あり)、
-    各点数の順位範囲を求め、元のファイル (points/points.txt) に追記する。
-    """
-    # 「過去のコンテスト」のページから、コンテスト名を取得 (1 ページのみ見る)
-    contest_names_page_1: set[str] = set()
-
-    url = "https://atcoder.jp/contests/archive"
-    with urllib.request.urlopen(url) as res:
-        html_data = res.read().decode("utf-8")
-
-    bs = BeautifulSoup(html_data, "html.parser")
-
-    body_data = (
-        bs.find("div", {"class": "table-responsive"})
-        .find("table", {"class": "table table-default table-striped table-hover table-condensed table-bordered small"})
-        .find("tbody")
+def get_score_rank_dict(
+    contest_name: str,
+    client: AtCoderClient,
+) -> dict[int, list[int]]:
+    """1 コンテスト分の standings/json から score -> rank 範囲を作る。"""
+    response_data = client.get_json(
+        f"https://atcoder.jp/contests/{contest_name}/standings/json",
+        require_login=True,
     )
-    contest_blocks = body_data.find_all("tr")
-    for block in contest_blocks:
-        contest_name = block.find_all("td")[1].find("a", href=True)["href"].split("/")[-1]
-        if re.fullmatch("a[brg]c[0-9]{3}", contest_name):
-            contest_names_page_1.add(contest_name)
+    standing_data = response_data["StandingsData"]
+    return standing_data_to_score_rank_dict(standing_data)
 
-    # 既に取得済のコンテストを除外
-    with open("data/points/points.txt", "r") as f:
+
+def get_contest_names(
+    client: AtCoderClient,
+    contest_names_exist: set[str],
+    backfill: bool,
+) -> set[str]:
+    """アーカイブから未取得の ABC・ARC・AGC を探す。"""
+    contest_names: set[str] = set()
+    for page_no in range(1, 1000):
+        archive_url = "https://atcoder.jp/contests/archive"
+        if page_no >= 2:
+            archive_url += f"?page={page_no}"
+        bs = url_to_bs(archive_url, client=client)
+
+        table_container = bs.find("div", {"class": "table-responsive"})
+        if table_container is None:
+            break
+        table = table_container.find(
+            "table",
+            {"class": ("table table-default table-striped table-hover " "table-condensed table-bordered small")},
+        )
+        if table is None:
+            break
+        body_data = table.find("tbody")
+        if body_data is None:
+            break
+        contest_blocks = body_data.find_all("tr")
+        if len(contest_blocks) == 0:
+            break
+
+        contest_names_on_page = set()
+        for block in contest_blocks:
+            contest_name = block.find_all("td")[1].find("a", href=True)["href"].split("/")[-1]
+            if re.fullmatch(r"a[brg]c[0-9]{3}", contest_name):
+                contest_names_on_page.add(contest_name)
+
+        new_contest_names = contest_names_on_page - contest_names_exist
+        contest_names.update(new_contest_names)
+        print(f"archive page {page_no}: " f"対象 {len(contest_names_on_page)} 件、未取得 {len(new_contest_names)} 件")
+
+        if not backfill and len(contest_names_on_page) > 0 and contest_names_on_page <= contest_names_exist:
+            break
+
+    return contest_names
+
+
+def get_standing_and_join(
+    client: AtCoderClient | None = None,
+    backfill: bool = False,
+) -> None:
+    """新しいコンテストの順位範囲データを points.txt に追加する。"""
+    if client is None:
+        with AtCoderClient(use_browser_cookie=True) as browser_client:
+            browser_client.validate_login()
+            get_standing_and_join(client=browser_client, backfill=backfill)
+        return
+
+    with open("data/points/points.txt", "r", encoding="utf-8") as f:
         first_line = f.readline().strip()
         score_rank_data = ast.literal_eval(first_line)
         contest_names_exist = set(score_rank_data.keys())
-        contest_names = sorted(list(contest_names_page_1 - contest_names_exist))
 
-    print(f"新たに順位表 json を取得するコンテストの名前一覧: {contest_names}")
+    contest_names = sorted(
+        get_contest_names(
+            client=client,
+            contest_names_exist=contest_names_exist,
+            backfill=backfill,
+        )
+    )
+    print("新たに standings/json を取得するコンテストの一覧:", contest_names)
 
     if len(contest_names) == 0:
         return
 
-    if len(sys.argv) >= 2:
-        password = sys.argv[1]  # GitHub Actions での実行の場合
-    else:
-        password = input("Password?: ")  # 手動実行の場合
-
-    # 各コンテストのデータを取得・追加
     for contest_name in contest_names:
         print("start", contest_name)
         assert contest_name not in score_rank_data
-        score_rank_data[contest_name] = get_score_rank_dict(password, contest_name)
+        score_rank_data[contest_name] = get_score_rank_dict(contest_name, client=client)
 
-    # 追記
-    with open("data/points/points.txt", "w") as f:
+    with open("data/points/points.txt", "w", encoding="utf-8") as f:
         print("update points.txt")
         f.write(str(score_rank_data))
 
 
 if __name__ == "__main__":
-    get_standing_and_join()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--backfill",
+        action="store_true",
+        help="アーカイブ全ページを確認して過去の未取得コンテストも補完する。",
+    )
+    args = parser.parse_args()
+
+    print("通常ブラウザの AtCoder ログイン済み Cookie を使って順位データを更新します。")
+    get_standing_and_join(backfill=args.backfill)
