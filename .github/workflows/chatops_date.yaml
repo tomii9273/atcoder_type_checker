@@ -19,7 +19,7 @@ jobs:
           echo "branchname=$(curl -H "Authorization: token ${GITHUB_TOKEN}" ${{ github.event.issue.pull_request.url }} | jq '.head.ref' | sed 's/\"//g')" >> $GITHUB_OUTPUT
 
       - name: Checkout upstream repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           ref: ${{ steps.upstreambranch.outputs.branchname }}
 
