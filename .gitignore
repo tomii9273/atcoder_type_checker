@@ -5,3 +5,4 @@ app/data/raw_standings
 .venv
 .venv_dev
 .venv_prod
+/security_report/
