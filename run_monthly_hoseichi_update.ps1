@@ -104,7 +104,8 @@ try {
     }
 
     $constText = [System.IO.File]::ReadAllText($constPath)
-    $constPattern = '(?m)^HOSEICHI_FILE_PATH = ".*"$'
+    # CRLF の CR を置換対象に含めず、元の改行コードを維持する。
+    $constPattern = '(?m)^HOSEICHI_FILE_PATH = "[^\r\n]*"(?=\r?$)'
     if (-not [regex]::IsMatch($constText, $constPattern)) {
         throw "const.py に HOSEICHI_FILE_PATH が見つかりません。"
     }
