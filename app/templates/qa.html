@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <style>
     .question {
@@ -25,7 +25,7 @@
     <p class="question">Q2: ソースコードは公開していますか？</p>
     <p class="answer">A2: (2024-07-13 更新) 公開しています (<a href="https://github.com/tomii9273/atcoder_type_checker">GitHub リポジトリ</a>)。</p>
     <p class="question">Q3: 「内部レートによる補正値」はコンテストのたびに更新していますか？</p>
-    <p class="answer">A3: いいえ、2023 年 9 月以降は、原則として毎月 1 日の 16 時頃に更新しています。</p>
+    <p class="answer">A3: いいえ、<s>2023 年 9 月以降は、原則として毎月 1 日の 16 時頃に更新しています</s> (2026-10-23 更新) 月に 1 回程度、不定期に更新しています。</p>
     <p class="question">Q4: 「補正値算出に使用したユーザー」はどのように選んでいますか？</p>
     <p class="answer">
       A4: 更新時点で (誕生年が 5 の倍数または補正後のレーティングが 2400 以上) かつ Rated での参加数が 30
@@ -42,7 +42,10 @@
       順位表そのもの・各ユーザーのコンテスト成績表・各ユーザーの AtCoder ID は保存していません。
     </p>
     <p class="question">Q7: 順位データの自動更新はどのような方法で行っていますか？</p>
-    <p class="answer">A7: GitHub Actions で行っています (<a href="https://github.com/tomii9273/atcoder_type_checker/blob/main/.github/workflows/daily_update.yaml">コード</a>)。</p>
+    <p class="answer">
+      A7: <s>GitHub Actions で行っています (<a href="https://github.com/tomii9273/atcoder_type_checker/blob/main/.github/workflows/daily_update.yaml">コード</a>)。</s> (2026-10-23 更新) 私の PC
+      (Windows) のタスクスケジューラで定期実行 (その時刻に電源を切っていた場合は後から手動実行) しています。
+    </p>
     <p class="question">Q8: 補正値算出に使用したユーザーの (内部レート, 平均順位率) からどのようにして補正値ラインを作成していますか？</p>
     <p class="answer">A8: 最小二乗法による 10 次式近似で作成しています (<a href="https://github.com/tomii9273/atcoder_type_checker/pull/66">参考</a>)。</p>
     <p class="question">Q9: 「Too Many Requests」と表示されます。</p>
